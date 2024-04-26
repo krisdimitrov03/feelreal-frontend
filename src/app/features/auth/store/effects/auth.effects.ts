@@ -1,5 +1,5 @@
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { Injectable, inject } from '@angular/core';
 import {
   LOGIN,
@@ -12,8 +12,8 @@ import {
   REGISTER_FINISH,
 } from '../actions/auth.actions';
 import { exhaustMap, map, tap } from 'rxjs';
-import { LoginDTO } from '../../shared/models/LoginDTO';
-import { RegisterDTO } from '../../shared/models/RegisterDTO';
+import { LoginDTO } from '../../../../shared/models/LoginDTO';
+import { RegisterDTO } from '../../../../shared/models/RegisterDTO';
 import { Router } from '@angular/router';
 
 @Injectable()

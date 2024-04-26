@@ -6,7 +6,7 @@ import { Observable, filter, of, tap } from 'rxjs';
 import { RegisterDTO } from '../../shared/models/RegisterDTO';
 import { User } from '../../shared/models/User';
 
-const mockUsers: (User & { token: string })[] = [
+const mockUsers: (User & { token: string, email: string })[] = [
   {
     id: '26d018f0-7602-41b6-ba19-105594e7693a',
     username: 'user123',

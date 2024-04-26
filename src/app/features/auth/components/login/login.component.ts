@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { LoginDTO } from '../../shared/models/LoginDTO';
+import { LoginDTO } from '../../../../shared/models/LoginDTO';
 import { Store } from '@ngrx/store';
-import { LOGIN } from '../../store/actions/auth.actions';
+import { LOGIN } from '../../../../features/auth/store/actions/auth.actions';
 
 @Component({
   selector: 'app-login',
