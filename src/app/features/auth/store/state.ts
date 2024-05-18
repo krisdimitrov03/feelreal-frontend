@@ -1,6 +1,11 @@
+import { User } from '../../../shared/models/User';
+
 export interface AuthState {
-  user: any | null;
-  token: string | null;
+  user: User | null;
+  isAuthenticated: boolean;
 }
 
-export const authState: AuthState = { user: null, token: null };
+export const authState: AuthState = {
+  user: null,
+  isAuthenticated: false,
+};

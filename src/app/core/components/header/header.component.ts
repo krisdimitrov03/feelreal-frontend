@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { selectToken } from '../../../features/auth/store/selectors/auth.selectors';
-import { Observable } from 'rxjs';
+import {
+  Component,
+} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { selectUsername } from '../../../features/auth/store/selectors/auth.selectors';
 import { AuthState } from '../../../features/auth/store/state';
 import { AsyncPipe, NgIf } from '@angular/common';
 
@@ -10,12 +11,11 @@ import { AsyncPipe, NgIf } from '@angular/common';
   standalone: true,
   imports: [AsyncPipe, NgIf],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.sass',
+  styleUrl: './header.component.sass'
 })
 export class HeaderComponent {
-  token$: Observable<string | null>;
+  username$ = this.store.select(selectUsername);
 
   constructor(private store: Store<AuthState>) {
-    this.token$ = this.store.pipe(select(selectToken));
   }
 }

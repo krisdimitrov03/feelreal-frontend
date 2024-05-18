@@ -10,11 +10,16 @@ import {
   LOGOUT_SUCCESS,
   REGISTER,
   REGISTER_FINISH,
+  SET_STATE_FAILURE,
+  SET_STATE_FROM_STORAGE,
+  SET_STATE_SUCCESS,
 } from '../actions/auth.actions';
 import { exhaustMap, map, tap } from 'rxjs';
 import { LoginDTO } from '../../../../shared/models/LoginDTO';
 import { RegisterDTO } from '../../../../shared/models/RegisterDTO';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
+import { User } from '../../../../shared/models/User';
 
 @Injectable()
 export class AuthEffects {
@@ -30,7 +35,7 @@ export class AuthEffects {
           .login(action as LoginDTO)
           .pipe(
             map((data) =>
-              data.status === true ? LOGIN_SUCCESS(data) : LOGIN_FAILURE(data)
+              data !== null ? LOGIN_SUCCESS(data) : LOGIN_FAILURE(data)
             )
           )
       )
@@ -70,5 +75,22 @@ export class AuthEffects {
         tap(() => this.router.navigate(['/']))
       ),
     { dispatch: false }
+  );
+
+  setAuthStateFromStorage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SET_STATE_FROM_STORAGE),
+      map(() => {
+        const token = sessionStorage.getItem('Auth-Token');
+
+        if (token === null) {
+          return SET_STATE_FAILURE();
+        }
+
+        const user = jwtDecode<User>(token);
+
+        return user !== null ? SET_STATE_SUCCESS(user) : SET_STATE_FAILURE();
+      })
+    )
   );
 }
