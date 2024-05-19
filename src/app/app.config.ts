@@ -13,10 +13,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     importProvidersFrom(
-      StoreModule.forRoot({}),
-      EffectsModule.forRoot([]),
-      StoreModule.forFeature('auth', authReducer),
-      EffectsModule.forFeature(AuthEffects)
+      StoreModule.forRoot({
+        'auth': authReducer,
+      }),
+      EffectsModule.forRoot([AuthEffects]),
     ),
   ],
 };

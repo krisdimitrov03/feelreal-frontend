@@ -42,13 +42,26 @@ export class AuthEffects {
     )
   );
 
+  loginSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(LOGIN_SUCCESS),
+        tap(() => this.router.navigate(['/']))
+      ),
+    { dispatch: false }
+  );
+
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(REGISTER),
       exhaustMap((action) =>
-        this.authService
-          .register(action as RegisterDTO)
-          .pipe(map((_) => REGISTER_FINISH()))
+        this.authService.register(action as RegisterDTO).pipe(
+          map((result) => {
+            if (result) this.router.navigate(['/login']);
+
+            return REGISTER_FINISH();
+          })
+        )
       )
     )
   );
@@ -68,11 +81,14 @@ export class AuthEffects {
     )
   );
 
-  loginSuccess$ = createEffect(
+  logoutSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(LOGIN_SUCCESS),
-        tap(() => this.router.navigate(['/']))
+        ofType(LOGOUT_SUCCESS),
+        tap(() => {
+          this.router.navigate(['/']);
+          sessionStorage.removeItem('Auth-Token');
+        })
       ),
     { dispatch: false }
   );
@@ -81,7 +97,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(SET_STATE_FROM_STORAGE),
       map(() => {
-        const token = sessionStorage.getItem('Auth-Token');
+        const token = this.authService.getToken();
 
         if (token === null) {
           return SET_STATE_FAILURE();

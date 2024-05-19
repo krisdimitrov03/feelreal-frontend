@@ -34,6 +34,21 @@ const mockUsers: (User & { token: string })[] = [
   },
 ];
 
+const mockJobs = [
+  {
+    id: '1',
+    name: 'Software Developer',
+  },
+  {
+    id: '2',
+    name: 'Software Tester',
+  },
+  {
+    id: '3',
+    name: 'Software Engineer',
+  },
+];
+
 @Injectable({
   providedIn: 'root',
 })
@@ -79,6 +94,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  getJobs(): Observable<any[]> {
+    return of(mockJobs);
   }
 
   private setSession(key: string, value: string): void {

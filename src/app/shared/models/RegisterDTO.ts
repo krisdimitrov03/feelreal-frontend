@@ -4,4 +4,6 @@ export type RegisterDTO = {
     firstName: string;
     lastName: string;
     password: string;
+    jobId: string;
+    dateOfBirth: string;
 };

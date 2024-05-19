@@ -9,6 +9,7 @@ import {
 import { LoginDTO } from '../../../../shared/models/LoginDTO';
 import { Store } from '@ngrx/store';
 import { LOGIN } from '../../../../features/auth/store/actions/auth.actions';
+import { AuthState } from '../../store/state';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private store: Store) {}
+  constructor(private store: Store<AuthState>) {}
 
   onSubmit() {
     const formData = this.form.value as LoginDTO;
