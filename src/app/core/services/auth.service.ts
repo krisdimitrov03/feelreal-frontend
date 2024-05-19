@@ -1,8 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpStatusCode,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { LoginDTO } from '../../shared/models/LoginDTO';
 import { LoginReturnDTO } from '../../shared/models/LoginReturnDTO';
-import { Observable, filter, map, of, tap } from 'rxjs';
+import { Observable, catchError, filter, map, of, tap } from 'rxjs';
 import { RegisterDTO } from '../../shared/models/RegisterDTO';
 import { User } from '../../shared/models/User';
 import { jwtDecode } from 'jwt-decode';
@@ -36,15 +40,15 @@ const mockUsers: (User & { token: string })[] = [
 
 const mockJobs = [
   {
-    id: '1',
-    name: 'Software Developer',
+    id: '41b52749-1f80-4781-b4d6-e5dc41770d35',
+    name: 'Product Manager',
   },
   {
-    id: '2',
-    name: 'Software Tester',
+    id: '446a30c0-5e07-4587-8e5b-c4fe6d05f9e4',
+    name: 'Data Analyst',
   },
   {
-    id: '3',
+    id: 'a734d005-29aa-41a7-a231-6fcd630deb1e',
     name: 'Software Engineer',
   },
 ];
@@ -60,47 +64,64 @@ export class AuthService {
   constructor() {}
 
   login(data: LoginDTO): Observable<User> {
-    // return this.httpClient.post<LoginReturnDTO>(`${this.url}/login`, data).pipe(
-    //   filter((data) => data.status === true),
-    //   tap((data) => this.setSession(this.tokenKey, data.token))
-    // );
-
-    const token = mockUsers.find((u) => u.username == data.username)?.token;
-
-    return of({
-      status: true,
-      token,
-    } as LoginReturnDTO).pipe(
-      filter((data) => data.status === true),
-      tap((data) => this.setSession(this.tokenKey, data.token)),
-      map((data) => {
-        const user = jwtDecode<User>(data.token);
-        return user;
-      })
-    );
+    return this.httpClient
+      .post<LoginReturnDTO>(`${this.url}/api/user/login`, data)
+      .pipe(
+        filter((data) => data.successful === true),
+        tap((data) => this.setSession(this.tokenKey, data.token)),
+        map((data) => {
+          const user = jwtDecode<User>(data.token);
+          return user;
+        })
+      );
   }
 
   register(data: RegisterDTO): Observable<boolean> {
-    // return this.httpClient.post<boolean>(`${this.url}/register`, data);
-
-    return of(true);
+    return this.httpClient
+      .post<{ successful: boolean; errors: string[] }>(
+        `${this.url}/api/user/register`,
+        data
+      )
+      .pipe(
+        map((data) => data.successful),
+        catchError((res: HttpErrorResponse) => {
+          if (res.status === HttpStatusCode.BadRequest) {
+            console.log(res.error);
+          }
+          return of(false);
+        })
+      );
   }
 
   logout(): Observable<boolean> {
-    localStorage.removeItem(this.tokenKey);
+    this.deleteSession();
 
     return of(true);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  getUserFromSession(): User | null {
+    const token = this.getToken();
+
+    if (token === null) {
+      return null;
+    }
+
+    return jwtDecode<User>(token);
   }
 
   getJobs(): Observable<any[]> {
     return of(mockJobs);
   }
 
+  getToken(): string | null {
+    return sessionStorage.getItem(this.tokenKey);
+  }
+
   private setSession(key: string, value: string): void {
     sessionStorage.setItem(key, value);
+  }
+
+  private deleteSession(): void {
+    sessionStorage.removeItem(this.tokenKey);
   }
 }

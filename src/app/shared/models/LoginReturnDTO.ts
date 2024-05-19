@@ -1,4 +1,4 @@
 export type LoginReturnDTO = {
-  status: boolean;
+  successful: boolean;
   token: string;
 };

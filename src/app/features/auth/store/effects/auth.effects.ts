@@ -86,8 +86,8 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(LOGOUT_SUCCESS),
         tap(() => {
+          this.authService.logout();
           this.router.navigate(['/']);
-          sessionStorage.removeItem('Auth-Token');
         })
       ),
     { dispatch: false }
@@ -97,13 +97,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(SET_STATE_FROM_STORAGE),
       map(() => {
-        const token = this.authService.getToken();
-
-        if (token === null) {
-          return SET_STATE_FAILURE();
-        }
-
-        const user = jwtDecode<User>(token);
+        const user = this.authService.getUserFromSession();
 
         return user !== null ? SET_STATE_SUCCESS(user) : SET_STATE_FAILURE();
       })
