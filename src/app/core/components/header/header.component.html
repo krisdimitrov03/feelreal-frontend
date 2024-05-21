@@ -1,0 +1,14 @@
+<div class="header">
+  @if((username$ | async); as username) {
+    Hello, {{ username }}!
+    <br>
+    <a (click)="logout()">Logout</a>
+  }
+  @else {
+    Hello, guest!
+    <br>
+    <a routerLink="/login">Login</a>
+    <br>
+    <a routerLink="/register">Register</a>
+  }
+</div>
