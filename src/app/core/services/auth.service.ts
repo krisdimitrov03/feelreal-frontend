@@ -65,7 +65,7 @@ export class AuthService {
 
   login(data: LoginDTO): Observable<User> {
     return this.httpClient
-      .post<LoginReturnDTO>(`${this.url}/api/user/login`, data)
+      .post<LoginReturnDTO>(`${this.url}/api/users/login`, data)
       .pipe(
         filter((data) => data.successful === true),
         tap((data) => this.setSession(this.tokenKey, data.token)),
@@ -79,7 +79,7 @@ export class AuthService {
   register(data: RegisterDTO): Observable<boolean> {
     return this.httpClient
       .post<{ successful: boolean; errors: string[] }>(
-        `${this.url}/api/user/register`,
+        `${this.url}/api/users/register`,
         data
       )
       .pipe(

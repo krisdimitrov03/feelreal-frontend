@@ -1,0 +1,17 @@
+@if ((profile$ | async); as profile) {
+<div class="profile">
+  <div class="profile__header">
+    <h1 class="profile__title">Manage Profile</h1>
+  </div>
+  <div class="profile__content">
+    <p>{{ profile.username }}</p>
+    <p>{{ profile.email }}</p>
+    <p>{{ profile.firstName }}</p>
+    <p>{{ profile.lastName }}</p>
+    <p>{{ profile.dateOfBirth }}</p>
+    <p>{{ profile.jobName }}</p>
+  </div>
+</div>
+} @else {
+<div class="loader">Loading...</div>
+}
