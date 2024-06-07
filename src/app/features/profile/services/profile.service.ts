@@ -1,17 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of, tap } from 'rxjs';
-import { Profile } from '../../../shared/models/Profile';
+import { Profile, ProfileUpdateModel } from '../../../shared/models/Profile';
 import { HttpClient } from '@angular/common/http';
 
-let mockProfile: Profile = {
-  id: '1',
-  username: 'admin_user',
-  email: 'admin@gmail.com',
-  firstName: 'John',
-  lastName: 'Doe',
-  dateOfBirth: new Date('01/2/1990'),
-  jobId: 'Product Manager',
-};
+// let mockProfile: Profile = {
+//   id: '1',
+//   username: 'admin_user',
+//   email: 'admin@gmail.com',
+//   firstName: 'John',
+//   lastName: 'Doe',
+//   dateOfBirth: new Date('01/2/1990'),
+//   job: 'Product Manager',
+// };
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +25,15 @@ export class ProfileService {
     return this.httpClient.get<Profile>(this.url + id);
   }
 
-  updateProfile(profile: Profile): Observable<boolean> {
-    return this.httpClient.put<string>(this.url + profile.id, profile).pipe(
+  updateProfile(id:string, model: ProfileUpdateModel): Observable<boolean> {
+    return this.httpClient.put<string>(this.url + id, model).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  deleteProfile(id: string): Observable<boolean> {
+    return this.httpClient.delete<string>(this.url + id).pipe(
       map(() => true),
       catchError(() => of(false))
     );

@@ -1,3 +1,5 @@
+import { Job } from "./Job";
+
 export interface Profile {
     id: string;
     username: string;
@@ -5,5 +7,7 @@ export interface Profile {
     firstName: string;
     lastName: string;
     dateOfBirth: Date;
-    jobId: string;
+    job: Job;
 }
+
+export type ProfileUpdateModel = Omit<Profile, 'id' | 'job'> & { jobId: string };

@@ -4,8 +4,7 @@
     <h1 class="profile__title">Manage Profile</h1>
   </div>
   <div class="profile__content">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input type="hidden" formControlName="id">
+    <form [formGroup]="form" (ngSubmit)="onUpdate()">
       <label for="username">Username:</label>
       <input
         name="username"
@@ -13,11 +12,7 @@
         type="text"
       /><br /><br />
       <label for="email">Email:</label>
-      <input
-        formControlName="email"
-        name="email"
-        type="text"
-      /><br /><br />
+      <input formControlName="email" name="email" type="text" /><br /><br />
       <label for="firstName">FirstName:</label>
       <input
         name="firstName"
@@ -39,7 +34,7 @@
       <label for="jobId">Job:</label>
       <select name="jobId" formControlName="jobId">
         @for (job of (jobs$ | async); track $index) {
-        <option [value]="job.id" [selected]="job.id === profile.jobId">
+        <option [value]="job.id">
           {{ job.name }}
         </option>
         }</select
@@ -47,6 +42,8 @@
 
       <button type="submit">Save</button>
     </form>
+
+    <button (click)="onDelete()">Delete profile</button>
   </div>
 </div>
 } @else {
