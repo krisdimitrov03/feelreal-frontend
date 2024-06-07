@@ -1,6 +1,6 @@
+// src/app/app.config.ts
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { authReducer } from './features/auth/store/reducers/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './features/auth/store/effects/auth.effects';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
+import { CalendarFeatureModule } from './features/calendar/calendar.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +23,8 @@ export const appConfig: ApplicationConfig = {
       StoreModule.forRoot({
         auth: authReducer,
       }),
-      EffectsModule.forRoot([AuthEffects])
+      EffectsModule.forRoot([AuthEffects]),
+      CalendarFeatureModule
     ),
   ],
 };
