@@ -1,4 +1,3 @@
-// src/app/features/calendar/calendar.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { startOfDay, addHours, endOfDay, startOfMonth, endOfMonth, isSameDay, addMonths, subMonths, addDays, startOfWeek, endOfWeek } from 'date-fns';
@@ -63,7 +62,7 @@ const mockEvents: EventDTO[] = [
 ];
 
 interface EventWithRepeatMode extends CalendarEvent {
-  repeatMode: number; // This represents the repeat mode as a number
+  repeatMode: number;
 }
 
 @Component({

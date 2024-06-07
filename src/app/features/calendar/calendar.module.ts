@@ -1,4 +1,3 @@
-// src/app/features/calendar/calendar.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CalendarComponent } from './calendar.component';
