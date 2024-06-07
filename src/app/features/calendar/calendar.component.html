@@ -1,0 +1,19 @@
+<!-- src/app/features/calendar/calendar.component.html -->
+<div class="calendar-container">
+  <button (click)="previousMonth()">Previous</button>
+  <button (click)="nextMonth()">Next</button>
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="generatedEvents"
+    (dayClicked)="handleDayClick($event.day.date)">
+  </mwl-calendar-month-view>
+  
+  <div *ngIf="selectedDate" class="event-popup">
+    <h3>Events for {{ selectedDate | date: 'fullDate' }}</h3>
+    <ul>
+      <li *ngFor="let event of selectedDateEvents">{{ event.title }}</li>
+    </ul>
+    <button (click)="createEvent()">+ Add Event</button>
+    <button (click)="closePopup()">Close</button>
+  </div>
+</div>
