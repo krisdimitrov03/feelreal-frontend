@@ -2,6 +2,7 @@
   @if((username$ | async); as username) {
     Hello, {{ username }}!
     <br>
+    <a [routerLink]="manageProfileLink">Profile</a>
     <a (click)="logout()">Logout</a>
   }
   @else {

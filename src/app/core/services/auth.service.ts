@@ -40,15 +40,15 @@ const mockUsers: (User & { token: string })[] = [
 
 const mockJobs = [
   {
-    id: '41b52749-1f80-4781-b4d6-e5dc41770d35',
+    id: '8c07dae4-b996-4a8b-8fbb-2c67a7c8fa56',
     name: 'Product Manager',
   },
   {
-    id: '446a30c0-5e07-4587-8e5b-c4fe6d05f9e4',
+    id: 'afd23a9e-cba1-429f-b4d9-8268fe1d4eb5',
     name: 'Data Analyst',
   },
   {
-    id: 'a734d005-29aa-41a7-a231-6fcd630deb1e',
+    id: '8851bd46-a28a-4573-90e5-20f097afdb1f',
     name: 'Software Engineer',
   },
 ];

@@ -4,12 +4,49 @@
     <h1 class="profile__title">Manage Profile</h1>
   </div>
   <div class="profile__content">
-    <p>{{ profile.username }}</p>
-    <p>{{ profile.email }}</p>
-    <p>{{ profile.firstName }}</p>
-    <p>{{ profile.lastName }}</p>
-    <p>{{ profile.dateOfBirth }}</p>
-    <p>{{ profile.jobName }}</p>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input type="hidden" formControlName="id">
+      <label for="username">Username:</label>
+      <input
+        name="username"
+        formControlName="username"
+        type="text"
+      /><br /><br />
+      <label for="email">Email:</label>
+      <input
+        formControlName="email"
+        name="email"
+        type="text"
+      /><br /><br />
+      <label for="firstName">FirstName:</label>
+      <input
+        name="firstName"
+        formControlName="firstName"
+        type="text"
+      /><br /><br />
+      <label for="lastName">LastName:</label>
+      <input
+        name="lastName"
+        formControlName="lastName"
+        type="text"
+      /><br /><br />
+      <label for="dateOfBirth">Date of Birth:</label>
+      <input
+        name="dateOfBirth"
+        formControlName="dateOfBirth"
+        type="date"
+      /><br /><br />
+      <label for="jobId">Job:</label>
+      <select name="jobId" formControlName="jobId">
+        @for (job of (jobs$ | async); track $index) {
+        <option [value]="job.id" [selected]="job.id === profile.jobId">
+          {{ job.name }}
+        </option>
+        }</select
+      ><br /><br />
+
+      <button type="submit">Save</button>
+    </form>
   </div>
 </div>
 } @else {
