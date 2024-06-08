@@ -1,0 +1,51 @@
+@if ((profile$ | async); as profile) {
+<div class="profile">
+  <div class="profile__header">
+    <h1 class="profile__title">Manage Profile</h1>
+  </div>
+  <div class="profile__content">
+    <form [formGroup]="form" (ngSubmit)="onUpdate()">
+      <label for="username">Username:</label>
+      <input
+        name="username"
+        formControlName="username"
+        type="text"
+      /><br /><br />
+      <label for="email">Email:</label>
+      <input formControlName="email" name="email" type="text" /><br /><br />
+      <label for="firstName">FirstName:</label>
+      <input
+        name="firstName"
+        formControlName="firstName"
+        type="text"
+      /><br /><br />
+      <label for="lastName">LastName:</label>
+      <input
+        name="lastName"
+        formControlName="lastName"
+        type="text"
+      /><br /><br />
+      <label for="dateOfBirth">Date of Birth:</label>
+      <input
+        name="dateOfBirth"
+        formControlName="dateOfBirth"
+        type="date"
+      /><br /><br />
+      <label for="jobId">Job:</label>
+      <select name="jobId" formControlName="jobId">
+        @for (job of (jobs$ | async); track $index) {
+        <option [value]="job.id">
+          {{ job.name }}
+        </option>
+        }</select
+      ><br /><br />
+
+      <button type="submit">Save</button>
+    </form>
+
+    <button (click)="onDelete()">Delete profile</button>
+  </div>
+</div>
+} @else {
+<div class="loader">Loading...</div>
+}
