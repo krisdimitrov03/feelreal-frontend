@@ -25,7 +25,7 @@ export class AuthService {
   login(data: LoginDTO): Observable<User> {
     return this.httpClient.post<LoginReturnDTO>(api.user.login, data).pipe(
       filter((data) => data.successful === true),
-      tap((data) => this.setSession(this.tokenKey, data.token)),
+      tap((data) => this.setSession(data.token)),
       map((data) => {
         const user = jwtDecode<User>(data.token);
         return user;
@@ -78,8 +78,8 @@ export class AuthService {
     return sessionStorage.getItem(this.tokenKey);
   }
 
-  private setSession(key: string, value: string): void {
-    sessionStorage.setItem(key, value);
+  setSession(value: string): void {
+    sessionStorage.setItem(this.tokenKey, value);
   }
 
   private deleteSession(): void {

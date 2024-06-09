@@ -10,15 +10,25 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthState } from '../../../auth/store/state';
 import { Store } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/store/actions/auth.actions';
+import { selectIsAuthenticated } from '../../../auth/store/selectors/auth.selectors';
+
+type FormControls = {
+  username: FormControl<any>;
+  email: FormControl<any>;
+  firstName: FormControl<any>;
+  lastName: FormControl<any>;
+  dateOfBirth: FormControl<any>;
+  jobId: FormControl<any>;
+};
 
 @Component({
   selector: 'app-manage-profile',
   standalone: true,
-  imports: [AsyncPipe, ReactiveFormsModule,],
+  imports: [AsyncPipe, ReactiveFormsModule, RouterModule],
   templateUrl: './manage-profile.component.html',
   styleUrl: './manage-profile.component.sass',
 })
@@ -30,37 +40,61 @@ export class ManageProfileComponent {
   jobs$: Observable<any[]> = this.authService.getJobs();
 
   formValues: ProfileUpdateModel | null = null;
-  form: FormGroup = new FormGroup({});
+  form: FormGroup<FormControls> = new FormGroup({
+    username: new FormControl(null),
+    email: new FormControl(null),
+    firstName: new FormControl(null),
+    lastName: new FormControl(null),
+    dateOfBirth: new FormControl(null),
+    jobId: new FormControl(null),
+  });
   id: string | null = null;
 
-  constructor(private route: ActivatedRoute, private store: Store<AuthState>) {
-    this.route.paramMap.subscribe((params) => {
-      this.id = params.get('id');
-      this.profile$ = this.profileService.getProfile(this.id);
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store<AuthState>,
+    router: Router
+  ) {
+    this.store.select(selectIsAuthenticated).subscribe((isAuthenticated) => {
+      if (!isAuthenticated) {
+        router.navigate(['/login']);
+        return;
+      }
 
-      this.profile$?.subscribe((profile) => {
-        this.formValues = {
-          username: profile.username,
-          email: profile.email,
-          firstName: profile.firstName,
-          lastName: profile.lastName,
-          dateOfBirth: profile.dateOfBirth,
-          jobId: profile.job.id,
-        };
+      this.route.paramMap.subscribe((params) => {
+        this.id = params.get('id');
+        this.profile$ = this.profileService.getProfile(this.id);
 
-        this.form = new FormGroup({
-          username: new FormControl(this.formValues?.username, Validators.required),
-          email: new FormControl(this.formValues?.email, Validators.required),
-          firstName: new FormControl(
-            this.formValues?.firstName,
-            Validators.required
-          ),
-          lastName: new FormControl(this.formValues?.lastName, Validators.required),
-          dateOfBirth: new FormControl(
-            this.formValues?.dateOfBirth,
-            Validators.required
-          ),
-          jobId: new FormControl(this.formValues.jobId, Validators.required),
+        this.profile$?.subscribe((profile) => {
+          this.formValues = {
+            username: profile.username,
+            email: profile.email,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            dateOfBirth: profile.dateOfBirth,
+            jobId: profile.job.id,
+          };
+
+          this.form = new FormGroup({
+            username: new FormControl(
+              this.formValues?.username,
+              Validators.required
+            ),
+            email: new FormControl(this.formValues?.email, Validators.required),
+            firstName: new FormControl(
+              this.formValues?.firstName,
+              Validators.required
+            ),
+            lastName: new FormControl(
+              this.formValues?.lastName,
+              Validators.required
+            ),
+            dateOfBirth: new FormControl(
+              this.formValues?.dateOfBirth,
+              Validators.required
+            ),
+            jobId: new FormControl(this.formValues.jobId, Validators.required),
+          });
         });
       });
     });
@@ -68,20 +102,19 @@ export class ManageProfileComponent {
 
   onUpdate() {
     const data = this.form?.value as ProfileUpdateModel;
-    console.log(data);
 
-    this.profileService.updateProfile(this.id as string, data).subscribe((result) => {
-      if (result) {
-        alert('Profile updated successfully');
-      } else {
-        alert('Profile update failed');
-      }
-    });
+    this.profileService
+      .updateProfile(this.id as string, data)
+      .subscribe((result) => {
+        if (result) {
+          alert('Profile updated successfully');
+        } else {
+          alert('Profile update failed');
+        }
+      });
   }
 
   onDelete() {
-    console.log(this.id);
-    
     this.profileService.deleteProfile(this.id as string).subscribe((result) => {
       if (result) {
         this.store.dispatch(LOGOUT());
