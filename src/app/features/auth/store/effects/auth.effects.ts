@@ -99,19 +99,7 @@ export class AuthEffects {
       map(() => {
         const user = this.authService.getUserFromSession();
 
-        if (user === null) return SET_STATE_FAILURE();
-
-        let isTokenValid = false;
-
-        this.authService.authenticate().subscribe((status) => {
-          isTokenValid = status;
-        });
-
-        if (isTokenValid) {
-          return SET_STATE_SUCCESS(user as User);
-        }
-
-        return SET_STATE_FAILURE();
+        return user === null ? SET_STATE_FAILURE() : SET_STATE_SUCCESS(user);
       })
     )
   );
