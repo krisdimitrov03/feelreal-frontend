@@ -4,6 +4,7 @@ import { RegisterComponent } from './features/auth/components/register/register.
 import { ManageProfileComponent } from './features/profile/components/manage-profile/manage-profile.component';
 import { CalendarComponent } from './features/calendar/calendar.component';
 import { authGuard } from './core/guards/auth.guard';
+import { WellnessCheckPromptComponent } from './features/wellness-check/components/wellness-check-prompt/wellness-check-prompt.component';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,11 @@ export const routes: Routes = [
     {
         path: 'calendar',
         component: CalendarComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'wellness-check',
+        component: WellnessCheckPromptComponent,
         canActivate: [authGuard]
     }
 ];
