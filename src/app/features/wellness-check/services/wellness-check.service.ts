@@ -16,13 +16,18 @@ export class WellnessCheckService {
   getLastCheckForUser(): Observable<WellnessCheck | 'no-check'> {
     return this.getChecksForUser().pipe(
       map((checks) => {
-        console.log(checks);
-
         if (checks.length === 0) {
           return 'no-check';
         }
 
-        return checks.sort((a, b) => b.date.getDate() - a.date.getDate())[0];
+        checks = checks.sort((a, b) => {
+          let dateA = new Date(a.date).getTime();
+          let dateB = new Date(b.date).getTime();
+
+          return dateB - dateA;
+        });
+
+        return checks[0];
       })
     );
   }
