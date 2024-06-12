@@ -7,31 +7,31 @@ import { authGuard } from './core/guards/auth.guard';
 import { WellnessCheckPromptComponent } from './features/wellness-check/components/wellness-check-prompt/wellness-check-prompt.component';
 
 export const routes: Routes = [
-    {
-        path: 'register',
-        component: RegisterComponent
-    },
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'profile',
-        children: [
-            {
-                path: 'manage/:id',
-                component: ManageProfileComponent
-            }
-        ],
-    },
-    {
-        path: 'calendar',
-        component: CalendarComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'wellness-check',
-        component: WellnessCheckPromptComponent,
-        canActivate: [authGuard]
-    }
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'profile',
+    children: [
+      {
+        path: 'manage/:id',
+        component: ManageProfileComponent,
+      },
+    ],
+  },
+  {
+    path: 'calendar',
+    component: CalendarComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'wellness-check',
+    component: WellnessCheckPromptComponent,
+    canActivate: [authGuard],
+  },
 ];

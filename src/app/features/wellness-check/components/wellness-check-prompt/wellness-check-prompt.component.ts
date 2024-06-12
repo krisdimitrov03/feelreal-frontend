@@ -26,7 +26,7 @@ export class WellnessCheckPromptComponent implements OnDestroy, OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.lastCheck$.subscribe((lastCheck) => {
+    this.subscription = this.lastCheck$.subscribe((lastCheck) => {
       if (lastCheck !== 'no-check') {
         const lastCheckDate = new Date(lastCheck.date);
         lastCheckDate.setHours(0, 0, 0, 0);

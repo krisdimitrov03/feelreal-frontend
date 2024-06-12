@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,6 +11,7 @@ import { selectId } from '../../../auth/store/selectors/auth.selectors';
 import { WellnessCheckCreateModel } from '../../../../shared/models/WellnessCheck';
 import { WellnessCheckService } from '../../services/wellness-check.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-one-to-ten-check',
@@ -19,8 +20,10 @@ import { Router } from '@angular/router';
   templateUrl: './one-to-ten-check.component.html',
   styleUrl: './one-to-ten-check.component.sass',
 })
-export class OneToTenCheckComponent {
+export class OneToTenCheckComponent implements OnDestroy {
   service = inject(WellnessCheckService);
+
+  subscription : Subscription | null = null;
 
   form = new FormGroup({
     value: new FormControl(5, Validators.required),
@@ -29,7 +32,7 @@ export class OneToTenCheckComponent {
   constructor(private store: Store<AuthState>, private router: Router) {}
 
   onSubmit() {
-    this.store.select(selectId).subscribe((userId) => {
+    this.subscription = this.store.select(selectId).subscribe((userId) => {
       const { value } = this.form.value;
 
       const model: WellnessCheckCreateModel = {
@@ -43,5 +46,11 @@ export class OneToTenCheckComponent {
         if (result) this.router.navigate(['/']);
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
