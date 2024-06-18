@@ -18,8 +18,6 @@ import { exhaustMap, map, tap } from 'rxjs';
 import { LoginDTO } from '../../../../shared/models/LoginDTO';
 import { RegisterDTO } from '../../../../shared/models/RegisterDTO';
 import { Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
-import { User } from '../../../../shared/models/User';
 
 @Injectable()
 export class AuthEffects {
@@ -31,13 +29,15 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(LOGIN),
       exhaustMap((action) =>
-        this.authService
-          .login(action as LoginDTO)
-          .pipe(
-            map((data) =>
-              data !== null ? LOGIN_SUCCESS(data) : LOGIN_FAILURE(data)
-            )
-          )
+        this.authService.login(action as LoginDTO).pipe(
+          map((data) => {
+            if (data !== null) {
+              return LOGIN_SUCCESS(data);
+            } else {
+              return LOGIN_FAILURE(data);
+            }
+          })
+        )
       )
     )
   );
@@ -46,7 +46,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(LOGIN_SUCCESS),
-        tap(() => this.router.navigate(['/']))
+        tap(() => this.router.navigate(['/wellness-check']))
       ),
     { dispatch: false }
   );
@@ -99,7 +99,7 @@ export class AuthEffects {
       map(() => {
         const user = this.authService.getUserFromSession();
 
-        return user !== null ? SET_STATE_SUCCESS(user) : SET_STATE_FAILURE();
+        return user === null ? SET_STATE_FAILURE() : SET_STATE_SUCCESS(user);
       })
     )
   );

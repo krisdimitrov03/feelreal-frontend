@@ -1,9 +1,12 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/components/login/login.component';
 import { RegisterComponent } from './features/auth/components/register/register.component';
+import { ManageProfileComponent } from './features/profile/components/manage-profile/manage-profile.component';
 import { CalendarComponent } from './features/calendar/calendar.component';
 import { authGuard } from './core/guards/auth.guard';
+
 import { CreateEventComponent } from './features/calendar/create-event/create-event.component';
+import { WellnessCheckPromptComponent } from './features/wellness-check/components/wellness-check-prompt/wellness-check-prompt.component';
 
 export const routes: Routes = [
     {
@@ -23,5 +26,20 @@ export const routes: Routes = [
         path: 'createEvent', 
         component: CreateEventComponent, 
         canActivate: [authGuard]
-    }
+    },
+    {
+        path: 'profile',
+        children: [
+          {
+            path: 'manage/:id',
+            component: ManageProfileComponent,
+          },
+        ],
+        canActivate: [authGuard],                                                     
+      },
+      {
+        path: 'wellness-check',
+        component: WellnessCheckPromptComponent,
+        canActivate: [authGuard],
+      },
 ];

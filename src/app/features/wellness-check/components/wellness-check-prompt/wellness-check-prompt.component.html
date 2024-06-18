@@ -1,0 +1,10 @@
+<div class="wellness-check-prompt">
+  @if ((lastCheck$ | async); as lastCheck) { @if (lastCheck === 'no-check' ||
+  lastCheck.type === 1) {
+  <app-one-to-ten-check></app-one-to-ten-check>
+  } @else {
+  <app-compare-to-yesterday-check></app-compare-to-yesterday-check>
+  } } @else {
+  <div>Loading...</div>
+  }
+</div>
