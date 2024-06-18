@@ -14,7 +14,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthState } from '../../../auth/store/state';
 import { Store } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/store/actions/auth.actions';
-import { selectIsAuthenticated } from '../../../auth/store/selectors/auth.selectors';
+import {
+  selectIsAuthenticated,
+  selectUser,
+} from '../../../auth/store/selectors/auth.selectors';
 
 type FormControls = {
   username: FormControl<any>;
@@ -55,14 +58,17 @@ export class ManageProfileComponent {
     private store: Store<AuthState>,
     router: Router
   ) {
-    this.store.select(selectIsAuthenticated).subscribe((isAuthenticated) => {
-      if (!isAuthenticated) {
+    this.store.select(selectUser).subscribe((user) => {
+      if (user === null) {
         router.navigate(['/login']);
         return;
       }
 
       this.route.paramMap.subscribe((params) => {
         this.id = params.get('id');
+
+        if (this.id !== user.id) this.id = user.id;
+
         this.profile$ = this.profileService.getProfile(this.id);
 
         this.profile$?.subscribe((profile) => {

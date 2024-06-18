@@ -23,6 +23,7 @@ export const routes: Routes = [
         component: ManageProfileComponent,
       },
     ],
+    canActivate: [authGuard],                                                     
   },
   {
     path: 'calendar',
