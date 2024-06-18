@@ -1,0 +1,88 @@
+$primary-color: #007bff
+$slider-bg: #f8f9fa
+$slider-thumb: $primary-color
+$slider-thumb-hover: darken($primary-color, 10%)
+$slider-track: #ced4da
+
+.wellness-check-prompt
+  max-width: 400px
+  margin: auto
+  padding: 20px
+  background-color: #ffffff
+  border-radius: 10px
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+
+  &__content
+    display: flex
+    flex-direction: column
+    align-items: center
+
+  &__title
+    margin-bottom: 20px
+    font-size: 20px
+    font-weight: bold
+    color: $primary-color
+
+  &__actions
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+
+    .slider
+      -webkit-appearance: none
+      width: 100%
+      height: 15px
+      background: $slider-bg
+      outline: none
+      opacity: 0.7
+      transition: opacity 0.2s
+
+      &:hover
+        opacity: 1
+
+      &::-webkit-slider-thumb
+        -webkit-appearance: none
+        appearance: none
+        width: 25px
+        height: 25px
+        background: $slider-thumb
+        cursor: pointer
+        border-radius: 50%
+
+        &:hover
+          background: $slider-thumb-hover
+
+      &::-moz-range-thumb
+        width: 25px
+        height: 25px
+        background: $slider-thumb
+        cursor: pointer
+        border-radius: 50%
+
+        &:hover
+          background: $slider-thumb-hover
+
+    .slider-labels
+      display: flex
+      justify-content: space-between
+      width: 100%
+      margin-top: 10px
+
+      span
+        font-size: 12px
+
+    button
+      width: 100%
+      padding: 10px
+      font-size: 16px
+      color: #ffffff
+      background-color: $primary-color
+      border: none
+      border-radius: 5px
+      cursor: pointer
+      transition: background-color 0.3s
+      margin-top: 20px
+
+      &:hover
+        background-color: darken($primary-color, 10%)

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="wellness-check-prompt__content">
     <div class="wellness-check-prompt__title">
       <p>How are you feeling today?</p>
@@ -16,6 +16,53 @@
         <option value="9">9</option>
         <option value="10">10</option>
       </select>
+      <button type="submit">Submit</button>
+    </div>
+  </div>
+</form> -->
+
+<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()" class="wellness-check-prompt">
+  <div class="wellness-check-prompt__content">
+    <div class="wellness-check-prompt__title">
+      <p>How are you feeling today?</p>
+    </div>
+    <div class="wellness-check-prompt__actions">
+      <select name="" id="" formControlName="value">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <button type="submit">Submit</button>
+    </div>
+  </div>
+</form> -->
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="wellness-check-prompt">
+  <div class="wellness-check-prompt__content">
+    <div class="wellness-check-prompt__title">
+      <p>How are you feeling today?</p>
+    </div>
+    <div class="wellness-check-prompt__actions">
+      <input type="range" min="1" max="10" step="1" formControlName="value" class="slider" id="feelingSlider">
+      <div class="slider-labels">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <span>7</span>
+        <span>8</span>
+        <span>9</span>
+        <span>10</span>
+      </div>
       <button type="submit">Submit</button>
     </div>
   </div>
