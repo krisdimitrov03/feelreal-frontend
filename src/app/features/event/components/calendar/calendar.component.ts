@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { startOfDay, addHours, endOfDay, addMonths, subMonths, isSameDay, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
 import { Router } from '@angular/router';
-import { EventDTO } from '../../shared/models/EventDTO';
-import { EventService } from '../../core/services/event.service';
+import { Event } from '../../../../shared/models/Event';
+import { EventService } from '../../services/event.service';
 
-export const mockEvents: EventDTO[] = [
+export const mockEvents: Event[] = [
   {
       id: 1,
       title: "Team Meeting",
@@ -81,18 +81,23 @@ export class CalendarComponent implements OnInit {
   constructor(private router: Router, private eventService: EventService) {}
 
   ngOnInit(): void {
-    this.events = this.eventService.getEvents().map(event => {
-      return {
-        title: event.title,
-        start: new Date(event.dateTimeStart),
-        end: new Date(event.dateTimeEnd),
-        color: {
-          primary: '#1e90ff',
-          secondary: '#D1E8FF'
-        },
-        repeatMode: Number(event.repeatMode) // Ensure repeatMode is a number
-      };
-    });
+
+    // TODO: Map events from the API to the EventWithRepeatMode interface
+    this.eventService.getForUser().subscribe(events => console.log(events));
+    
+    // this.events = this.eventService.getForUser().pipe(
+    //   map(events => {
+    //   return {
+    //     title: event.title,
+    //     start: new Date(event.dateTimeStart),
+    //     end: new Date(event.dateTimeEnd),
+    //     color: {
+    //       primary: '#1e90ff',
+    //       secondary: '#D1E8FF'
+    //     },
+    //     repeatMode: Number(event.repeatMode) // Ensure repeatMode is a number
+    //   };
+    // }));
     this.generateRecurringEvents();
   }
 

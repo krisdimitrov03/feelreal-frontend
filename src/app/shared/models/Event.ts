@@ -1,4 +1,4 @@
-export type EventDTO = {
+export type Event = {
     id: number;
     title: string;
     notes: string;
@@ -7,3 +7,7 @@ export type EventDTO = {
     repeatMode: number;
     userId: string;
 };
+
+export type EventCreateModel = Omit<Event, 'id'>;
+
+export type EventUpdateModel = Omit<EventCreateModel, 'userId'>;

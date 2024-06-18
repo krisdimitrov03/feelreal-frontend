@@ -7,8 +7,8 @@ import { authReducer } from './features/auth/store/reducers/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './features/auth/store/effects/auth.effects';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
-import { CalendarFeatureModule } from './features/calendar/calendar-feature.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EventModule } from './features/event/event.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
         auth: authReducer,
       }),
       EffectsModule.forRoot([AuthEffects]),
-      CalendarFeatureModule,
+      EventModule,
       ReactiveFormsModule
     ),
   ],
