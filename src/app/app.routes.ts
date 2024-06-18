@@ -4,35 +4,42 @@ import { RegisterComponent } from './features/auth/components/register/register.
 import { ManageProfileComponent } from './features/profile/components/manage-profile/manage-profile.component';
 import { CalendarComponent } from './features/calendar/calendar.component';
 import { authGuard } from './core/guards/auth.guard';
+
+import { CreateEventComponent } from './features/calendar/create-event/create-event.component';
 import { WellnessCheckPromptComponent } from './features/wellness-check/components/wellness-check-prompt/wellness-check-prompt.component';
 
 export const routes: Routes = [
-  {
-    path: 'register',
-    component: RegisterComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'profile',
-    children: [
-      {
-        path: 'manage/:id',
-        component: ManageProfileComponent,
+    {
+        path: 'register',
+        component: RegisterComponent
+    },
+    {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'calendar',
+        component: CalendarComponent,
+        canActivate: [authGuard]
+    },
+    { 
+        path: 'createEvent', 
+        component: CreateEventComponent, 
+        canActivate: [authGuard]
+    },
+    {
+        path: 'profile',
+        children: [
+          {
+            path: 'manage/:id',
+            component: ManageProfileComponent,
+          },
+        ],
+        canActivate: [authGuard],                                                     
       },
-    ],
-    canActivate: [authGuard],                                                     
-  },
-  {
-    path: 'calendar',
-    component: CalendarComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'wellness-check',
-    component: WellnessCheckPromptComponent,
-    canActivate: [authGuard],
-  },
+      {
+        path: 'wellness-check',
+        component: WellnessCheckPromptComponent,
+        canActivate: [authGuard],
+      },
 ];

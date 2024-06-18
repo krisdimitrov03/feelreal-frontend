@@ -36,6 +36,7 @@
 
     <div class="input-group">
       <select formControlName="jobId">
+        <option value="" disabled selected>Occupation</option>
         @for (job of (jobs$ | async); track job) {
         <option [value]="job.id">{{ job.name }}</option>
         }
