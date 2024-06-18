@@ -1,15 +1,17 @@
-<div class="header">
-  @if((username$ | async); as username) {
-    Hello, {{ username }}!
-    <br>
-    <a [routerLink]="manageProfileLink">Profile</a>
-    <a (click)="logout()">Logout</a>
-  }
-  @else {
-    Hello, guest!
-    <br>
-    <a routerLink="/login">Login</a>
-    <br>
-    <a routerLink="/register">Register</a>
-  }
+<div class="navbar">
+  <div class="navbar__logo">
+    <a routerLink="/">MyApp</a>
+  </div>
+  <div class="navbar__links">
+    @if((username$ | async); as username) {
+      <span>Hello, {{ username }}!</span>
+      <a [routerLink]="manageProfileLink" class="profile-link">Profile</a>
+      <a routerLink="/calendar" class="profile-link">Calendar</a>
+      <a (click)="logout()" class="logout-link">Logout</a>
+    }
+    @else {
+      <a routerLink="/login" class="login-link">Login</a>
+      <a routerLink="/register" class="register-link">Register</a>
+    }
+  </div>
 </div>

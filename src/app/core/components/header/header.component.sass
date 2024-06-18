@@ -1,0 +1,51 @@
+$primary-color: #007bff
+$secondary-color: #6c757d
+$link-hover-color: darken($primary-color, 10%)
+$header-bg: #f8f9fa
+$header-text-color: #333
+
+.navbar
+  display: flex
+  justify-content: space-between
+  align-items: center
+  background-color: $header-bg
+  padding: 10px 20px
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+  color: $header-text-color
+
+  &__logo
+    font-size: 24px
+    font-weight: bold
+
+    a
+      text-decoration: none
+      color: $primary-color
+
+  &__links
+    display: flex
+    align-items: center
+
+    span
+      margin-right: 20px
+      font-size: 16px
+
+    a
+      margin-left: 20px
+      text-decoration: none
+      color: $primary-color
+      font-size: 16px
+      padding: 5px 10px
+      transition: background-color 0.3s, color 0.3s
+      border-radius: 5px
+
+      &:hover
+        background-color: $link-hover-color
+        color: #fff
+        cursor: pointer
+
+    .login-link, .register-link
+      color: $secondary-color
+
+      &:hover
+        background-color: lighten($secondary-color, 20%)
+        color: #fff
