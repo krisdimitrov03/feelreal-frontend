@@ -7,8 +7,8 @@ import { authReducer } from './features/auth/store/reducers/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './features/auth/store/effects/auth.effects';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
-import { ReactiveFormsModule } from '@angular/forms';
 import { EventModule } from './features/event/event.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const appConfig: ApplicationConfig = {
   providers: [

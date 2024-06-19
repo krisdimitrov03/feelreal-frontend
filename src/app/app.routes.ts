@@ -4,9 +4,8 @@ import { RegisterComponent } from './features/auth/components/register/register.
 import { ManageProfileComponent } from './features/profile/components/manage-profile/manage-profile.component';
 import { CalendarComponent } from './features/event/components/calendar/calendar.component';
 import { authGuard } from './core/guards/auth.guard';
-
-import { CreateEventComponent } from './features/event/components/create-event/create-event.component';
 import { WellnessCheckPromptComponent } from './features/wellness-check/components/wellness-check-prompt/wellness-check-prompt.component';
+import { CreateEventComponent } from './features/event/components/create-event/create-event.component';
 
 export const routes: Routes = [
     {

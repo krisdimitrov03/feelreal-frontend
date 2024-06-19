@@ -5,9 +5,8 @@ export type Event = {
     dateTimeStart: string;
     dateTimeEnd: string;
     repeatMode: number;
-    userId: string;
 };
 
 export type EventCreateModel = Omit<Event, 'id'>;
 
-export type EventUpdateModel = Omit<EventCreateModel, 'userId'>;
+export type EventUpdateModel = Omit<Event, 'id'>;

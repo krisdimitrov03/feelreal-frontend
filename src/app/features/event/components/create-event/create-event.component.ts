@@ -23,7 +23,6 @@ export class CreateEventComponent {
       dateTimeStart: new FormControl('', Validators.required),
       dateTimeEnd: new FormControl('', Validators.required),
       repeatMode: new FormControl(0, Validators.required),
-      userId: new FormControl('', Validators.required)
     });
   }
 
@@ -32,9 +31,12 @@ export class CreateEventComponent {
     if (this.eventForm.valid) {
       const newEvent: EventCreateModel = this.eventForm.value;
       newEvent.repeatMode = Number(newEvent.repeatMode); // Ensure repeatMode is a number
-      this.eventService.create(newEvent);
-      console.log('Event created:', newEvent);
-      this.router.navigate(['/calendar']);
+      this.eventService.create(newEvent).subscribe(
+        (event) => {
+          console.log('Event created:', event);
+          this.router.navigate(['/calendar']);
+        }
+      );
     }
   }
 }

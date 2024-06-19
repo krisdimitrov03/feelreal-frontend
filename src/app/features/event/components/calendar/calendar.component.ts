@@ -1,68 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent } from 'angular-calendar';
 import { startOfDay, addHours, endOfDay, addMonths, subMonths, isSameDay, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
 import { Router } from '@angular/router';
-import { Event } from '../../../../shared/models/Event';
 import { EventService } from '../../services/event.service';
+import { EventAdapter } from '../../../../shared/adapters/event-adapter';
+import { Event } from '../../../../shared/models/Event';
 
-export const mockEvents: Event[] = [
-  {
-      id: 1,
-      title: "Team Meeting",
-      notes: "Discuss project updates and timelines",
-      dateTimeStart: "2024-06-10T10:00:00",
-      dateTimeEnd: "2024-06-10T11:00:00",
-      repeatMode: 1,
-      userId: '26d018f0-7602-41b6-ba19-105594e7693a'
-  },
-  {
-      id: 1123,
-      title: "Nqkuv monthly",
-      notes: "Monthly discussions",
-      dateTimeStart: "2024-06-10T10:00:00",
-      dateTimeEnd: "2024-06-10T11:00:00",
-      repeatMode: 3,
-      userId: '26d018f0-7602-41b6-ba19-10559re7693a'
-  },
-  {
-      id: 2,
-      title: "Client Call",
-      notes: "Monthly update call with the client",
-      dateTimeStart: "2024-06-12T14:00:00",
-      dateTimeEnd: "2024-06-12T15:00:00",
-      repeatMode: 2,
-      userId: 'gosho'
-  },
-  {
-      id: 3,
-      title: "Development Sprint",
-      notes: "Start of the new sprint for development team",
-      dateTimeStart: "2024-06-15T09:00:00",
-      dateTimeEnd: "2024-06-15T12:00:00",
-      repeatMode: 0,
-      userId: '12'
-  },
-  {
-      id: 4,
-      title: "Product Launch",
-      notes: "Launch of the new product version",
-      dateTimeStart: "2024-07-01T13:00:00",
-      dateTimeEnd: "2024-07-01T15:00:00",
-      repeatMode: 0,
-      userId: '26d018f0-7602-41b6-ba19-105594e7693a'
-  },
-  {
-      id: 5,
-      title: "Code Review",
-      notes: "Review code for the latest merge requests",
-      dateTimeStart: "2024-06-20T16:00:00",
-      dateTimeEnd: "2024-06-20T18:00:00",
-      repeatMode: 1,
-      userId: 'gosho'
-  }
-];
-interface EventWithRepeatMode extends CalendarEvent {
+export interface EventWithRepeatMode extends CalendarEvent {
   repeatMode: number;
+}
+
+interface DayWithEvents {
+  date: Date;
+  events: CalendarEvent[];
+  inCurrentMonth: boolean;
 }
 
 @Component({
@@ -71,34 +22,40 @@ interface EventWithRepeatMode extends CalendarEvent {
   styleUrls: ['./calendar.component.sass']
 })
 export class CalendarComponent implements OnInit {
-  view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   events: EventWithRepeatMode[] = [];
   selectedDate: Date | null = null;
   selectedDateEvents: CalendarEvent[] = [];
   generatedEvents: CalendarEvent[] = [];
+  daysInMonth: DayWithEvents[] = [];
+  selectedEvent: CalendarEvent | null = null;
 
-  constructor(private router: Router, private eventService: EventService) {}
+  constructor(private router: Router, private eventService: EventService, private eventAdapter: EventAdapter) {}
 
   ngOnInit(): void {
+    this.eventService.getForUser().subscribe(events => {
+      console.log('Events:', events);
+      this.events = events.map(event => this.transformEvent(event));
+      this.generateRecurringEvents();
+      this.generateDaysInMonth();
+    });
+  }
 
-    // TODO: Map events from the API to the EventWithRepeatMode interface
-    this.eventService.getForUser().subscribe(events => console.log(events));
-    
-    // this.events = this.eventService.getForUser().pipe(
-    //   map(events => {
-    //   return {
-    //     title: event.title,
-    //     start: new Date(event.dateTimeStart),
-    //     end: new Date(event.dateTimeEnd),
-    //     color: {
-    //       primary: '#1e90ff',
-    //       secondary: '#D1E8FF'
-    //     },
-    //     repeatMode: Number(event.repeatMode) // Ensure repeatMode is a number
-    //   };
-    // }));
-    this.generateRecurringEvents();
+  transformEvent(event: Event): EventWithRepeatMode {
+    return {
+      id: event.id,
+      title: event.title,
+      start: new Date(event.dateTimeStart),
+      end: new Date(event.dateTimeEnd),
+      color: {
+        primary: '#1e90ff',
+        secondary: '#D1E8FF'
+      },
+      meta: {
+        notes: event.notes
+      },
+      repeatMode: event.repeatMode,
+    };
   }
 
   generateRecurringEvents(): void {
@@ -106,33 +63,43 @@ export class CalendarComponent implements OnInit {
     const end = endOfWeek(endOfMonth(this.viewDate));
 
     this.generatedEvents = [];
+    console.log('Generating recurring events for the range:', start, 'to', end);
 
     this.events.forEach(event => {
+      console.log('Processing event:', event);
+      const eventStart = event.start;
+      const eventEnd = event.end;
       switch (event.repeatMode) {
         case 0: // ONCE
-          if (event.start >= start && event.start <= end) {
+          if (eventStart >= start && eventStart <= end) {
             this.generatedEvents.push(event);
+            console.log('Added one-time event:', event);
           }
           break;
         case 1: // DAILY
           for (let date = start; date <= end; date = addDays(date, 1)) {
-            const newEvent = { ...event, start: date, end: addHours(date, event.end!.getHours() - event.start.getHours()) };
-            this.generatedEvents.push(newEvent);
+            if (date >= eventStart && date <= eventEnd!) {
+              const newEvent = { ...event, start: date, end: addHours(date, eventEnd!.getHours() - eventStart.getHours()) };
+              this.generatedEvents.push(newEvent);
+              console.log('Added daily event instance:', newEvent);
+            }
           }
           break;
         case 2: // WEEKLY
           for (let date = start; date <= end; date = addDays(date, 1)) {
-            if (event.start.getDay() === date.getDay()) {
-              const newEvent = { ...event, start: date, end: addHours(date, event.end!.getHours() - event.start.getHours()) };
+            if (eventStart.getDay() === date.getDay() && date >= eventStart && date <= eventEnd!) {
+              const newEvent = { ...event, start: date, end: addHours(date, eventEnd!.getHours() - eventStart.getHours()) };
               this.generatedEvents.push(newEvent);
+              console.log('Added weekly event instance:', newEvent);
             }
           }
           break;
         case 3: // MONTHLY
           for (let date = start; date <= end; date = addDays(date, 1)) {
-            if (event.start.getDate() === date.getDate()) {
-              const newEvent = { ...event, start: date, end: addHours(date, event.end!.getHours() - event.start.getHours()) };
+            if (eventStart.getDate() === date.getDate() && date >= eventStart && date <= eventEnd!) {
+              const newEvent = { ...event, start: date, end: addHours(date, eventEnd!.getHours() - eventStart.getHours()) };
               this.generatedEvents.push(newEvent);
+              console.log('Added monthly event instance:', newEvent);
             }
           }
           break;
@@ -140,23 +107,61 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  generateDaysInMonth(): void {
+    const start = startOfWeek(startOfMonth(this.viewDate));
+    const end = endOfWeek(endOfMonth(this.viewDate));
+    this.daysInMonth = [];
+    console.log('Generating days in month from:', start, 'to', end);
+
+    for (let date = start; date <= end; date = addDays(date, 1)) {
+      const eventsForDate = this.getEventsForDate(date);
+      this.daysInMonth.push({
+        date,
+        events: eventsForDate,
+        inCurrentMonth: date.getMonth() === this.viewDate.getMonth()
+      });
+    }
+  }
+
   getEventsForDate(date: Date): CalendarEvent[] {
-    return this.generatedEvents.filter(event => isSameDay(event.start, date));
+    const eventsForDate = this.generatedEvents.filter(event => isSameDay(event.start, date));
+    return eventsForDate;
   }
 
   previousMonth(): void {
     this.viewDate = subMonths(this.viewDate, 1);
     this.generateRecurringEvents();
+    this.generateDaysInMonth();
   }
 
   nextMonth(): void {
     this.viewDate = addMonths(this.viewDate, 1);
     this.generateRecurringEvents();
+    this.generateDaysInMonth();
   }
 
   handleDayClick(day: Date): void {
     this.selectedDate = day;
     this.selectedDateEvents = this.getEventsForDate(day);
+    this.selectedEvent = null;
+  }
+
+  handleEventClick(event: CalendarEvent, eventClick: MouseEvent): void {
+    eventClick.stopPropagation(); // Prevent triggering day click
+    this.selectedEvent = event;
+  }
+
+  editEvent(event: CalendarEvent): void {
+    this.router.navigate(['/editEvent', event.id]);
+  }
+
+  deleteEvent(event: CalendarEvent): void {
+    this.eventService.delete(event.id as string).subscribe(() => {
+      this.events = this.events.filter(e => e !== event);
+      this.generateRecurringEvents();
+      this.generateDaysInMonth();
+      this.selectedEvent = null;
+    });
   }
 
   createEvent(): void {
@@ -165,5 +170,6 @@ export class CalendarComponent implements OnInit {
 
   closePopup(): void {
     this.selectedDate = null;
+    this.selectedEvent = null;
   }
 }

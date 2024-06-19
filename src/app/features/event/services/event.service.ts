@@ -7,32 +7,43 @@ import {
   EventCreateModel,
   EventUpdateModel,
 } from '../../../shared/models/Event';
+import { EventAdapter } from '../../../shared/adapters/event-adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
   httpClient = inject(HttpClient);
+  eventAdapter = inject(EventAdapter);
 
   constructor() {}
 
   getForUser(): Observable<Event[]> {
-    return this.httpClient.get<Event[]>(api.event);
+    return this.httpClient.get<any[]>(api.event).pipe(
+      map(events => events.map(event => this.eventAdapter.adapt(event))),
+      catchError(() => of([]))
+    );
   }
 
-  getById(id: string): Observable<Event> {
-    return this.httpClient.get<Event>(`${api.event}/${id}`);
+  getById(id: string): Observable<Event | null> {
+    return this.httpClient.get<any>(`${api.event}/${id}`).pipe(
+      map(event => this.eventAdapter.adapt(event)),
+      catchError(() => of(null))
+    );
   }
 
   create(data: EventCreateModel): Observable<boolean> {
-    return this.httpClient.post<string>(api.event, data).pipe(
+    const requestData = this.eventAdapter.adaptForBackend(data as Event);
+    console.log('Request data:', requestData);
+    return this.httpClient.post<string>(api.event, requestData).pipe(
       map(() => true),
       catchError(() => of(false))
     );
   }
 
   update(id: string, data: EventUpdateModel): Observable<boolean> {
-    return this.httpClient.put<string>(`${api.event}/${id}`, data).pipe(
+    const requestData = this.eventAdapter.adaptForBackend(data as Event);
+    return this.httpClient.put<string>(`${api.event}/${id}`, requestData).pipe(
       map(() => true),
       catchError(() => of(false))
     );

@@ -13,6 +13,22 @@ import { jwtDecode } from 'jwt-decode';
 import { Job } from '../../shared/models/Job';
 import api from '../constants/api-url.constants';
 
+const mockJobs = [
+  {
+    id: '41b52749-1f80-4781-b4d6-e5dc41770d35',
+    name: 'Product Manager',
+  },
+  {
+    id: '446a30c0-5e07-4587-8e5b-c4fe6d05f9e4',
+    name: 'Data Analyst',
+  },
+  {
+    id: 'a734d005-29aa-41a7-a231-6fcd630deb1e',
+    name: 'Software Engineer',
+  },
+];
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -70,8 +86,10 @@ export class AuthService {
     return jwtDecode<User>(token);
   }
 
+  
+
   getJobs(): Observable<any[]> {
-    return this.httpClient.get<Job[]>(api.job);
+    return of(mockJobs);
   }
 
   getToken(): string | null {

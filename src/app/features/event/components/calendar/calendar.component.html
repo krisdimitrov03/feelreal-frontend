@@ -1,14 +1,38 @@
 <!-- src/app/features/calendar/calendar.component.html -->
-<div class="calendar-container">
-  <button (click)="previousMonth()">Previous</button>
-  <button (click)="nextMonth()">Next</button>
-  <mwl-calendar-month-view
-    [viewDate]="viewDate"
-    [events]="generatedEvents"
-    (dayClicked)="handleDayClick($event.day.date)">
-  </mwl-calendar-month-view>
+<div class="calendar">
+  <div class="calendar-header">
+    <button (click)="previousMonth()" class="calendar-nav">Previous</button>
+    <div class="calendar-title">{{ viewDate | date: 'MMMM yyyy' }}</div>
+    <button (click)="nextMonth()" class="calendar-nav">Next</button>
+  </div>
+  <div class="calendar-grid">
+    <div class="day-header">Sun</div>
+    <div class="day-header">Mon</div>
+    <div class="day-header">Tue</div>
+    <div class="day-header">Wed</div>
+    <div class="day-header">Thu</div>
+    <div class="day-header">Fri</div>
+    <div class="day-header">Sat</div>
+    
+    <div *ngFor="let day of daysInMonth" [class.outside-month]="!day.inCurrentMonth" class="calendar-day" (click)="handleDayClick(day.date)">
+      <div class="date">{{ day.date | date: 'd' }}</div>
+      <div class="events">
+        <div *ngFor="let event of day.events" class="event" (click)="handleEventClick(event, $event)">{{ event.title }}</div>
+      </div>
+    </div>
+  </div>
   
-  <div *ngIf="selectedDate" class="event-popup">
+  <div *ngIf="selectedEvent" class="event-popup">
+    <h3>{{ selectedEvent.title }}</h3>
+    <p><strong>Start:</strong> {{ selectedEvent.start | date: 'short' }}</p>
+    <p><strong>End:</strong> {{ selectedEvent.end | date: 'short' }}</p>
+    <p><strong>Notes:</strong> {{ selectedEvent.meta?.notes }}</p>
+    <button (click)="editEvent(selectedEvent)">Edit</button>
+    <button (click)="deleteEvent(selectedEvent)" class="delete-button">Delete</button>
+    <button (click)="closePopup()">Close</button>
+  </div>
+  
+  <div *ngIf="selectedDate && !selectedEvent" class="event-popup">
     <h3>Events for {{ selectedDate | date: 'fullDate' }}</h3>
     <ul>
       <li *ngFor="let event of selectedDateEvents">{{ event.title }}</li>
