@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { startOfDay, addHours, endOfDay, addMonths, subMonths, isSameDay, addDays, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
 import { Router } from '@angular/router';
+import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, subMonths, addMonths, isSameDay, addHours } from 'date-fns';
+import { CalendarEvent } from 'angular-calendar';
 import { EventDTO } from '../../shared/models/EventDTO';
-import { EventService } from '../../core/services/event.service';
 
 export const mockEvents: EventDTO[] = [
   {
@@ -61,8 +60,15 @@ export const mockEvents: EventDTO[] = [
       userId: 'gosho'
   }
 ];
+
 interface EventWithRepeatMode extends CalendarEvent {
   repeatMode: number;
+}
+
+interface DayWithEvents {
+  date: Date;
+  events: CalendarEvent[];
+  inCurrentMonth: boolean;
 }
 
 @Component({
@@ -71,17 +77,18 @@ interface EventWithRepeatMode extends CalendarEvent {
   styleUrls: ['./calendar.component.sass']
 })
 export class CalendarComponent implements OnInit {
-  view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   events: EventWithRepeatMode[] = [];
   selectedDate: Date | null = null;
   selectedDateEvents: CalendarEvent[] = [];
   generatedEvents: CalendarEvent[] = [];
+  daysInMonth: DayWithEvents[] = [];
+  selectedEvent: CalendarEvent | null = null;
 
-  constructor(private router: Router, private eventService: EventService) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.events = this.eventService.getEvents().map(event => {
+    this.events = mockEvents.map(event => {
       return {
         title: event.title,
         start: new Date(event.dateTimeStart),
@@ -90,10 +97,12 @@ export class CalendarComponent implements OnInit {
           primary: '#1e90ff',
           secondary: '#D1E8FF'
         },
-        repeatMode: Number(event.repeatMode) // Ensure repeatMode is a number
+        repeatMode: event.repeatMode,
+        meta: { notes: event.notes } // Add notes to the meta property
       };
     });
     this.generateRecurringEvents();
+    this.generateDaysInMonth();
   }
 
   generateRecurringEvents(): void {
@@ -135,6 +144,20 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  generateDaysInMonth(): void {
+    const start = startOfWeek(startOfMonth(this.viewDate));
+    const end = endOfWeek(endOfMonth(this.viewDate));
+    this.daysInMonth = [];
+
+    for (let date = start; date <= end; date = addDays(date, 1)) {
+      this.daysInMonth.push({
+        date,
+        events: this.getEventsForDate(date),
+        inCurrentMonth: date.getMonth() === this.viewDate.getMonth()
+      });
+    }
+  }
+
   getEventsForDate(date: Date): CalendarEvent[] {
     return this.generatedEvents.filter(event => isSameDay(event.start, date));
   }
@@ -142,16 +165,37 @@ export class CalendarComponent implements OnInit {
   previousMonth(): void {
     this.viewDate = subMonths(this.viewDate, 1);
     this.generateRecurringEvents();
+    this.generateDaysInMonth();
   }
 
   nextMonth(): void {
     this.viewDate = addMonths(this.viewDate, 1);
     this.generateRecurringEvents();
+    this.generateDaysInMonth();
   }
 
   handleDayClick(day: Date): void {
     this.selectedDate = day;
     this.selectedDateEvents = this.getEventsForDate(day);
+    this.selectedEvent = null;
+  }
+
+  handleEventClick(event: CalendarEvent, eventClick: MouseEvent): void {
+    eventClick.stopPropagation(); // Prevent triggering day click
+    this.selectedEvent = event;
+  }
+
+  editEvent(event: CalendarEvent): void {
+    // Navigate to edit event page with event details
+    this.router.navigate(['/editEvent', event.id]);
+  }
+
+  deleteEvent(event: CalendarEvent): void {
+    // Implement delete logic
+    this.events = this.events.filter(e => e !== event);
+    this.generateRecurringEvents();
+    this.generateDaysInMonth();
+    this.selectedEvent = null;
   }
 
   createEvent(): void {
@@ -160,5 +204,6 @@ export class CalendarComponent implements OnInit {
 
   closePopup(): void {
     this.selectedDate = null;
+    this.selectedEvent = null;
   }
 }
