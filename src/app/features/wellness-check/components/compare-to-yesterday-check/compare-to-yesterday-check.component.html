@@ -1,14 +1,11 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="wellness-check-prompt">
   <div class="wellness-check-prompt__content">
     <div class="wellness-check-prompt__title">
       <p>How are you feeling today compared to yesterday?</p>
     </div>
     <div class="wellness-check-prompt__actions">
-      <select name="" id="" formControlName="value">
-        <option value="11">Better</option>
-        <option value="12">Worse</option>
-      </select>
-      <button type="submit">Submit</button>
+      <button type="submit" (click)="form.controls['value'].setValue(11);" class="btn-better">Better</button>
+      <button type="submit" (click)="form.controls['value'].setValue(12);" class="btn-worse">Worse</button>
     </div>
   </div>
 </form>
