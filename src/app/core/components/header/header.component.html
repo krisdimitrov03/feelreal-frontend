@@ -1,17 +1,60 @@
-<div class="navbar">
-  <div class="navbar__logo">
-    <a routerLink="/">MyApp</a>
-  </div>
-  <div class="navbar__links">
-    @if((username$ | async); as username) {
-      <span>Hello, {{ username }}!</span>
-      <a [routerLink]="manageProfileLink" class="profile-link">Profile</a>
-      <a routerLink="/calendar" class="profile-link">Calendar</a>
-      <a (click)="logout()" class="logout-link">Logout</a>
-    }
-    @else {
-      <a routerLink="/login" class="login-link">Login</a>
-      <a routerLink="/register" class="register-link">Register</a>
-    }
-  </div>
-</div>
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
+
+@if ((username$ | async); as username) {
+<header class="authenticated-header">
+  <nav>
+    <a class="logo" routerLink="/">FeelReal</a>
+    <div class="nav-links">
+      <div class="profile-dropdown" (click)="toggleDropdown()">
+        <a class="profile-link">
+          <img
+            src="https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
+            alt="Profile"
+            class="profile-icon"
+          />
+          <span class="username">{{ username }}</span>
+        </a>
+        <div class="dropdown-content" [class.show]="dropdownVisible">
+          <a routerLink="/calendar"
+            ><i class="fas fa-calendar-alt"></i>Calendar</a
+          >
+          <a routerLink="/settings"><i class="fas fa-cog"></i>Settings</a>
+          <a (click)="logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+} @else {
+<header class="unauthenticated-header">
+  <nav>
+    <a class="logo" routerLink="/">FeelReal</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#community">Community</a>
+      <a href="#contact">Contact</a>
+      <div class="profile-dropdown" (click)="toggleDropdown()">
+        <a class="profile-link">
+          <img
+            src="https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
+            alt="Profile"
+            class="profile-icon"
+          />
+        </a>
+        <div class="dropdown-content" [class.show]="dropdownVisible">
+          <a routerLink="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
+          <a routerLink="/register"><i class="fas fa-user-plus"></i>Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+}
