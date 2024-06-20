@@ -34,7 +34,7 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.getForUser().subscribe(events => {
-      console.log('Events:', events);
+      console.log('Events fetched from backend:', events);
       this.events = events.map(event => this.transformEvent(event));
       this.generateRecurringEvents();
       this.generateDaysInMonth();
@@ -66,46 +66,50 @@ export class CalendarComponent implements OnInit {
     console.log('Generating recurring events for the range:', start, 'to', end);
 
     this.events.forEach(event => {
-      console.log('Processing event:', event);
-      const eventStart = event.start;
-      const eventEnd = event.end;
-      switch (event.repeatMode) {
-        case 0: // ONCE
-          if (eventStart >= start && eventStart <= end) {
-            this.generatedEvents.push(event);
-            console.log('Added one-time event:', event);
-          }
-          break;
-        case 1: // DAILY
-          for (let date = start; date <= end; date = addDays(date, 1)) {
-            if (date >= eventStart && date <= eventEnd!) {
-              const newEvent = { ...event, start: date, end: addHours(date, eventEnd!.getHours() - eventStart.getHours()) };
-              this.generatedEvents.push(newEvent);
-              console.log('Added daily event instance:', newEvent);
-            }
-          }
-          break;
-        case 2: // WEEKLY
-          for (let date = start; date <= end; date = addDays(date, 1)) {
-            if (eventStart.getDay() === date.getDay() && date >= eventStart && date <= eventEnd!) {
-              const newEvent = { ...event, start: date, end: addHours(date, eventEnd!.getHours() - eventStart.getHours()) };
-              this.generatedEvents.push(newEvent);
-              console.log('Added weekly event instance:', newEvent);
-            }
-          }
-          break;
-        case 3: // MONTHLY
-          for (let date = start; date <= end; date = addDays(date, 1)) {
-            if (eventStart.getDate() === date.getDate() && date >= eventStart && date <= eventEnd!) {
-              const newEvent = { ...event, start: date, end: addHours(date, eventEnd!.getHours() - eventStart.getHours()) };
-              this.generatedEvents.push(newEvent);
-              console.log('Added monthly event instance:', newEvent);
-            }
-          }
-          break;
-      }
+        const eventStart = startOfDay(event.start);
+        const eventEnd = endOfDay(event.end!);
+        console.log('Processing event:', event);
+
+        switch (event.repeatMode) {
+            case 0: // ONCE
+                if (eventStart >= start && eventStart <= end) {
+                    this.generatedEvents.push(event);
+                    console.log('Added one-time event:', event);
+                }
+                break;
+            case 1: // DAILY
+                for (let date = start; date <= end; date = addDays(date, 1)) {
+                    if (date >= eventStart) {
+                        const newEvent = { ...event, start: startOfDay(date), end: endOfDay(date) };
+                        this.generatedEvents.push(newEvent);
+                        console.log('Added daily event instance:', newEvent);
+                    }
+                }
+                break;
+            case 2: // WEEKLY
+                for (let date = start; date <= end; date = addDays(date, 1)) {
+                    if (eventStart.getDay() === date.getDay()) {
+                        const newEvent = { ...event, start: startOfDay(date), end: endOfDay(date) };
+                        this.generatedEvents.push(newEvent);
+                        console.log('Added weekly event instance:', newEvent);
+                    }
+                }
+                break;
+            case 3: // MONTHLY
+                for (let date = start; date <= end; date = addDays(date, 1)) {
+                    if (eventStart.getDate() === date.getDate()) {
+                        const newEvent = { ...event, start: startOfDay(date), end: endOfDay(date) };
+                        this.generatedEvents.push(newEvent);
+                        console.log('Added monthly event instance:', newEvent);
+                    }
+                }
+                break;
+        }
     });
-  }
+
+    console.log('Generated Events:', this.generatedEvents);
+}
+
 
   generateDaysInMonth(): void {
     const start = startOfWeek(startOfMonth(this.viewDate));
@@ -120,11 +124,15 @@ export class CalendarComponent implements OnInit {
         events: eventsForDate,
         inCurrentMonth: date.getMonth() === this.viewDate.getMonth()
       });
+      console.log(`Day: ${date}, Events: ${eventsForDate}`);
     }
+
+    console.log('Days in Month:', this.daysInMonth);
   }
 
   getEventsForDate(date: Date): CalendarEvent[] {
     const eventsForDate = this.generatedEvents.filter(event => isSameDay(event.start, date));
+    console.log('Events for date', date, ':', eventsForDate);
     return eventsForDate;
   }
 
