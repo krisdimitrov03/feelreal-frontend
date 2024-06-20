@@ -79,11 +79,9 @@ export class CalendarComponent implements OnInit {
                 break;
             case 1: // DAILY
                 for (let date = start; date <= end; date = addDays(date, 1)) {
-                    if (date >= eventStart) {
-                        const newEvent = { ...event, start: startOfDay(date), end: endOfDay(date) };
-                        this.generatedEvents.push(newEvent);
-                        console.log('Added daily event instance:', newEvent);
-                    }
+                    const newEvent = { ...event, start: startOfDay(date), end: endOfDay(date) };
+                    this.generatedEvents.push(newEvent);
+                    console.log('Added daily event instance:', newEvent);
                 }
                 break;
             case 2: // WEEKLY
@@ -118,23 +116,23 @@ export class CalendarComponent implements OnInit {
     console.log('Generating days in month from:', start, 'to', end);
 
     for (let date = start; date <= end; date = addDays(date, 1)) {
-      const eventsForDate = this.getEventsForDate(date);
-      this.daysInMonth.push({
-        date,
-        events: eventsForDate,
-        inCurrentMonth: date.getMonth() === this.viewDate.getMonth()
-      });
-      console.log(`Day: ${date}, Events: ${eventsForDate}`);
+        const eventsForDate = this.getEventsForDate(date);
+        this.daysInMonth.push({
+            date,
+            events: eventsForDate,
+            inCurrentMonth: date.getMonth() === this.viewDate.getMonth()
+        });
     }
 
     console.log('Days in Month:', this.daysInMonth);
   }
 
+
   getEventsForDate(date: Date): CalendarEvent[] {
     const eventsForDate = this.generatedEvents.filter(event => isSameDay(event.start, date));
-    console.log('Events for date', date, ':', eventsForDate);
     return eventsForDate;
-  }
+}
+
 
   previousMonth(): void {
     this.viewDate = subMonths(this.viewDate, 1);
