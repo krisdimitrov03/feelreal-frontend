@@ -28,7 +28,7 @@
     <p><strong>End:</strong> {{ selectedEvent.end | date: 'short' }}</p>
     <p><strong>Notes:</strong> {{ selectedEvent.meta?.notes }}</p>
     <button (click)="editEvent(selectedEvent)">Edit</button>
-    <button (click)="deleteEvent(selectedEvent)">Delete</button>
+    <button (click)="deleteEvent(selectedEvent)" class="delete-button">Delete</button>
     <button (click)="closePopup()">Close</button>
   </div>
   
