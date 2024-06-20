@@ -2,11 +2,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CalendarComponent } from './calendar.component';
-import { CreateEventComponent } from './create-event/create-event.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { CreateEventComponent } from './components/create-event/create-event.component';
 
 @NgModule({
   declarations: [
@@ -23,4 +23,4 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CalendarFeatureModule { }
+export class EventModule { }

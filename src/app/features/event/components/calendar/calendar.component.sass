@@ -1,0 +1,128 @@
+// src/app/features/calendar/calendar.component.sass
+$primary-color: #60c751
+$secondary-color: #428b39
+$hover-bg-color: #bcffb3
+$event-bg-color: #deffd9
+$hover-event-bg-color: darken($primary-color, 10%)
+$header-bg-color: $primary-color
+$text-color: #ffffff
+$border-color: #ddd
+$shadow-color: rgba(0, 0, 0, 0.1)
+
+.calendar
+  width: 100%
+  max-width: 800px
+  margin: auto
+  font-family: 'Arial', sans-serif
+  border: 1px solid $border-color
+  overflow: hidden
+  box-shadow: 0 4px 8px $shadow-color
+
+  .calendar-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 10px 20px
+    background-color: $header-bg-color
+    color: $text-color
+    font-size: 1.5em
+
+    .calendar-nav
+      background: none
+      border: none
+      font-size: 1em
+      color: $text-color
+      cursor: pointer
+
+  .calendar-title
+    margin: 0
+
+  .calendar-grid
+    display: grid
+    grid-template-columns: repeat(7, 1fr)
+    gap: 1px
+    background-color: #f0f0f0
+
+  .day-header
+    background-color: $secondary-color
+    text-align: center
+    padding: 10px
+    font-weight: bold
+    color: $text-color
+    border-bottom: 2px solid $border-color
+
+  .calendar-day
+    background-color: #ffffff
+    padding: 10px
+    min-height: 100px
+    display: flex
+    flex-direction: column
+    border-bottom: 1px solid $border-color
+    transition: background-color 0.3s ease
+
+    &.outside-month
+      opacity: 0.5
+
+    &:hover
+      background-color: $hover-bg-color
+
+  .date
+    font-weight: bold
+    margin-bottom: 10px
+    color: #000000
+    font-size: 1.2em
+
+  .events
+    flex-grow: 1
+
+  .event
+    background-color: $event-bg-color
+    color: #000000
+    padding: 5px
+    margin-top: 5px
+    border-radius: 3px
+    font-size: 0.9em
+    text-align: center
+    cursor: pointer
+    transition: background-color 0.3s ease
+
+    &:hover
+      background-color: $hover-event-bg-color
+      color: $text-color
+
+  .event-popup
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    background: #fff
+    padding: 20px
+    box-shadow: 0 4px 8px $shadow-color
+    border-radius: 8px
+    z-index: 10
+    width: 300px
+
+    h3
+      margin-top: 0
+
+    button
+      margin-right: 10px
+      padding: 5px 10px
+      background-color: $primary-color
+      color: $text-color
+      border: none
+      border-radius: 3px
+      cursor: pointer
+      transition: background-color 0.3s
+
+      &:hover
+        background-color: darken($primary-color, 10%)
+
+      &.delete-button
+        background-color: red
+
+        &:hover
+          background-color: darken(red, 10%)
+
+    &:last-child
+      margin-right: 0
