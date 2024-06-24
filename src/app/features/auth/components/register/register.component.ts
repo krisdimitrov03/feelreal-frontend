@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { first } from 'rxjs';
@@ -15,7 +15,7 @@ import { AsyncPipe, NgFor, NgForOf } from '@angular/common';
   templateUrl: './register.component.html',
   styleUrl: './register.component.sass'
 })
-export class RegisterComponent {
+export class RegisterComponent implements AfterViewInit {
   authService = inject(AuthService);
 
   jobs$ = this.authService.getJobs();
@@ -32,6 +32,12 @@ export class RegisterComponent {
   });
 
   constructor(private store: Store<AuthState>) {}
+
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
+    const height = document.querySelector('.unauthenticated-header')?.clientHeight as number;
+    window.scrollTo(0, height);
+  }
 
   onSubmit() {
     const formData = this.form.value as (RegisterDTO & { confirmPassword: string });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../../features/auth/store/state';
 import { selectIsAuthenticated } from '../../../features/auth/store/selectors/auth.selectors';
@@ -7,7 +7,7 @@ import { selectIsAuthenticated } from '../../../features/auth/store/selectors/au
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.sass',
 })
