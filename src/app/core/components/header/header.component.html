@@ -12,7 +12,7 @@
   <nav>
     <a class="logo" routerLink="/">FeelReal</a>
     <div class="nav-links">
-      <div class="profile-dropdown" (click)="toggleDropdown()">
+      <div class="profile-dropdown" (click)="toggleDropdown($event)">
         <a class="profile-link">
           <img
             src="https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
@@ -37,11 +37,11 @@
   <nav>
     <a class="logo" routerLink="/">FeelReal</a>
     <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#features">Features</a>
-      <a href="#community">Community</a>
-      <a href="#contact">Contact</a>
-      <div class="profile-dropdown" (click)="toggleDropdown()">
+      <a (click)="scrollToSection('about')">About</a>
+      <a (click)="scrollToSection('features')">Features</a>
+      <a (click)="scrollToSection('community')">Community</a>
+      <a (click)="scrollToSection('contact')">Contact</a>
+      <div class="profile-dropdown" (click)="toggleDropdown($event)">
         <a class="profile-link">
           <img
             src="https://www.strasys.uk/wp-content/uploads/2022/02/Depositphotos_484354208_S.jpg"
