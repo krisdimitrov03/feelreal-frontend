@@ -6,8 +6,13 @@ import { CalendarComponent } from './features/event/components/calendar/calendar
 import { authGuard } from './core/guards/auth.guard';
 import { WellnessCheckPromptComponent } from './features/wellness-check/components/wellness-check-prompt/wellness-check-prompt.component';
 import { CreateEventComponent } from './features/event/components/create-event/create-event.component';
+import { LandingComponent } from './core/components/landing/landing.component';
 
 export const routes: Routes = [
+    {
+      path: '',
+      component: LandingComponent
+    },
     {
         path: 'register',
         component: RegisterComponent

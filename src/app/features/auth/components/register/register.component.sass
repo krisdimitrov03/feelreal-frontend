@@ -1,83 +1,93 @@
-// Variables
-$font-stack: Helvetica, sans-serif
-$primary-color: #3498db
-$secondary-color: #2ecc71
-$input-bg-color: #ecf0f1
-$input-border-color: #bdc3c7
-$input-focus-color: $primary-color
-$button-bg-color: $primary-color
-$button-hover-color: darken($primary-color, 10%)
-$button-disabled-color: lighten($primary-color, 20%)
-
-// Mixins
-=transition($properties...)
-  @each $property in $properties
-    transition: $property 0.3s ease
-
-// Styles
 .register-container
-  display: flex
-  justify-content: center
-  align-items: center
-  height: 100vh
-  background-color: #f9f9f9
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: 100%
+    background-color: #f7f9fc
+    margin: 5rem 0
 
 .register-form
-  background: #fff
-  padding: 2rem
-  border-radius: 10px
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)
-  width: 100%
-  max-width: 400px
-  font-family: $font-stack
-
-  h2
-    margin-bottom: 1.5rem
-    text-align: center
-    color: $primary-color
-
-  .input-group
-    margin-bottom: 1rem
+    width: 600px
+    padding: 3em
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+    border-radius: 10px
+    background-color: #fff
     display: flex
     flex-direction: column
+    align-items: center
 
-    input,
-    select
-      padding: 0.75rem
-      border: 1px solid $input-border-color
-      border-radius: 5px
-      background-color: $input-bg-color
-      font-size: 1rem
-      +transition(border-color, box-shadow)
-
-      &:focus
-        border-color: $input-focus-color
-        box-shadow: 0 0 5px rgba($input-focus-color, 0.5)
-        outline: none
-
-    select
-      padding-right: 1.5rem
-      -webkit-appearance: none
-      -moz-appearance: none
-      appearance: none
-      background: url('data:image/svg+xml;utf8,<svg fill="%237f8c8d" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center
-      background-size: 12px 12px
-
-  button
-    width: 100%
-    padding: 0.75rem
-    border: none
-    border-radius: 5px
-    background-color: $button-bg-color
-    color: #fff
-    font-size: 1rem
+.logo
+    font-size: 2em
     font-weight: bold
+    color: #ff7e5f
+    margin-bottom: 1em
+
+.register-form h2
+    margin-bottom: 1.5em
+    color: #333
+    font-size: 1.8em
+    text-align: center
+
+.form-row
+    width: 100%
+    display: flex
+    justify-content: space-between
+    margin-bottom: 1.5em
+
+.input-group
+    width: 48%
+    text-align: left
+
+.input-group label
+    display: block
+    margin-bottom: 0.5em
+    color: #333
+
+.input-group input,
+.input-group select
+    width: 100%
+    padding: 0.8em
+    border-radius: 5px
+    border: 1px solid #ccc
+    font-size: 1em
+    box-sizing: border-box
+
+.input-group select.styled-select
+    appearance: none
+    background: url('https://img.icons8.com/ios-filled/50/000000/sort-down.png') no-repeat right 0.75em center
+    background-color: white
+    background-size: 1em
+    padding-right: 2.5em
+
+.input-group input[type="date"]
+    padding-right: 1em
+    height: 100%
+
+.cta-button
+    background-color: #ff7e5f
+    color: white
+    padding: 0.8em
+    border-radius: 25px
+    text-decoration: none
+    font-weight: bold
+    transition: background-color 0.3s ease
+    border: none
     cursor: pointer
-    +transition(background-color)
+    width: 100%
+    font-size: 1em
+    margin-top: 1.5em
+    box-sizing: border-box
 
-    &:hover:not(:disabled)
-      background-color: $button-hover-color
+.cta-button:hover
+    background-color: #feb47b
 
-    &:disabled
-      background-color: $button-disabled-color
-      cursor: not-allowed
+.register-form p
+    margin-top: 1em
+    color: #333
+    text-align: center
+
+.register-form a
+    color: #ff7e5f
+    text-decoration: none
+    font-weight: bold

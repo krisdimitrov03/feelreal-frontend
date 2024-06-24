@@ -19,6 +19,7 @@ export class HeaderComponent {
   username$ = this.store.select(selectUsername);
   id$ = this.store.select(selectId);
   manageProfileLink = '';
+  dropdownVisible = false;
 
   constructor(private store: Store<AuthState>) {
     this.id$.subscribe((id) => {
@@ -28,5 +29,10 @@ export class HeaderComponent {
 
   logout() {
     this.store.dispatch(LOGOUT());
+    this.toggleDropdown();
+  }
+
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
 }
