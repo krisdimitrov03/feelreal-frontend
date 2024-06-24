@@ -1,0 +1,139 @@
+body
+    font-family: 'Roboto', sans-serif
+    margin: 0
+    padding: 0
+    color: #333
+    background-color: #f7f9fc
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 100vh
+
+.profile-container
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: 100%
+    background-color: #f7f9fc
+
+.profile
+    width: 700px
+    padding: 3em
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+    border-radius: 10px
+    background-color: #fff
+    display: flex
+    flex-direction: column
+    align-items: center
+
+.profile__header
+    text-align: center
+    margin-bottom: 1em
+
+.profile__title
+    font-size: 2em
+    color: #ff7e5f
+
+.profile__content
+    width: 100%
+
+.form-row
+    display: flex
+    justify-content: space-between
+    width: 100%
+    margin-bottom: 1.5em
+
+.form-row.full-width
+    display: block
+
+.input-group
+    width: 48%
+    text-align: left
+
+.input-group.full-width
+    width: 100%
+
+.input-group label
+    display: block
+    margin-bottom: 0.5em
+    color: #333
+
+.input-group input,
+.input-group select
+    width: 100%
+    padding: 0.8em
+    border-radius: 5px
+    border: 1px solid #ccc
+    font-size: 1em
+    box-sizing: border-box
+
+.input-group select.styled-select
+    appearance: none
+    background: url('https://img.icons8.com/ios-filled/50/000000/sort-down.png') no-repeat right 0.75em center
+    background-color: white
+    background-size: 1em
+    padding-right: 2.5em
+
+.input-group input[type="date"]
+    padding-right: 1em
+
+.cta-button
+    background-color: #ff7e5f
+    color: white
+    padding: 0.8em
+    border-radius: 25px
+    text-decoration: none
+    font-weight: bold
+    transition: background-color 0.3s ease
+    border: none
+    cursor: pointer
+    width: 100%
+    font-size: 1em
+    margin-top: 1.5em
+    box-sizing: border-box
+
+.cta-button:hover
+    background-color: #feb47b
+
+.delete-button
+    background-color: #ff4d4d
+    color: white
+    padding: 0.8em
+    border-radius: 25px
+    text-decoration: none
+    font-weight: bold
+    transition: background-color 0.3s ease
+    border: none
+    cursor: pointer
+    width: 100%
+    font-size: 1em
+    margin-top: 1em
+    box-sizing: border-box
+
+.delete-button:hover
+    background-color: #ff1a1a
+
+.loader
+    font-size: 1.5em
+    color: #ff7e5f
+    display: flex
+    justify-content: center
+    align-items: center
+
+.loader::after
+    content: ' '
+    display: inline-block
+    width: 1em
+    height: 1em
+    border: 2px solid currentColor
+    border-top: 2px solid transparent
+    border-radius: 50%
+    animation: spin 1s linear infinite
+    margin-left: 0.5em
+
+@keyframes spin
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(360deg)
