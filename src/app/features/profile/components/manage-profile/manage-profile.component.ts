@@ -1,15 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { AfterViewInit, Component, inject, Renderer2 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { AsyncPipe } from '@angular/common';
 import { Profile, ProfileUpdateModel } from '../../../../shared/models/Profile';
 import { AuthService } from '../../../../core/services/auth.service';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthState } from '../../../auth/store/state';
 import { Store } from '@ngrx/store';
@@ -30,34 +25,35 @@ type FormControls = {
   standalone: true,
   imports: [AsyncPipe, ReactiveFormsModule, RouterModule],
   templateUrl: './manage-profile.component.html',
-  styleUrl: './manage-profile.component.sass',
+  styleUrls: ['./manage-profile.component.sass'],
 })
-export class ManageProfileComponent {
+export class ManageProfileComponent implements AfterViewInit {
   profileService = inject(ProfileService);
   authService = inject(AuthService);
+  renderer = inject(Renderer2);
 
   profile$: Observable<Profile> | null = null;
   jobs$: Observable<any[]> = this.authService.getJobs();
 
   formValues: ProfileUpdateModel | null = null;
   form: FormGroup<FormControls> = new FormGroup({
-    username: new FormControl(null),
-    email: new FormControl(null),
-    firstName: new FormControl(null),
-    lastName: new FormControl(null),
-    dateOfBirth: new FormControl(null),
-    jobId: new FormControl(null),
+    username: new FormControl(null, Validators.required),
+    email: new FormControl(null, Validators.required),
+    firstName: new FormControl(null, Validators.required),
+    lastName: new FormControl(null, Validators.required),
+    dateOfBirth: new FormControl(null, Validators.required),
+    jobId: new FormControl(null, Validators.required),
   });
   id: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<AuthState>,
-    router: Router
+    private router: Router
   ) {
     this.store.select(selectUser).subscribe((user) => {
       if (user === null) {
-        router.navigate(['/login']);
+        this.router.navigate(['/login']);
         return;
       }
 
@@ -78,52 +74,75 @@ export class ManageProfileComponent {
             jobId: profile.job.id,
           };
 
-          this.form = new FormGroup({
-            username: new FormControl(
-              this.formValues?.username,
-              Validators.required
-            ),
-            email: new FormControl(this.formValues?.email, Validators.required),
-            firstName: new FormControl(
-              this.formValues?.firstName,
-              Validators.required
-            ),
-            lastName: new FormControl(
-              this.formValues?.lastName,
-              Validators.required
-            ),
-            dateOfBirth: new FormControl(
-              this.formValues?.dateOfBirth,
-              Validators.required
-            ),
-            jobId: new FormControl(this.formValues.jobId, Validators.required),
+          this.form.setValue({
+            username: this.formValues.username,
+            email: this.formValues.email,
+            firstName: this.formValues.firstName,
+            lastName: this.formValues.lastName,
+            dateOfBirth: this.formValues.dateOfBirth,
+            jobId: this.formValues.jobId,
           });
+
+          this.addPlaceholderHandlers();
         });
       });
     });
   }
 
-  onUpdate() {
-    const data = this.form?.value as ProfileUpdateModel;
-    console.log(data);
-    
-
-    this.profileService
-      .updateProfile(this.id as string, data)
-      .subscribe((result) => {
-        if (result) {
-          alert('Profile updated successfully');
-        } else {
-          alert('Profile update failed');
-        }
-      });
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
+    const height = document.querySelector('.unauthenticated-header')?.clientHeight as number;
+    window.scrollTo(0, height);
   }
 
-  onDelete() {
+  addPlaceholderHandlers() {
+    const inputs = document.querySelectorAll('.input-group input, .input-group select');
+    inputs.forEach(input => {
+      if (input instanceof HTMLInputElement) {
+        this.renderer.listen(input, 'focus', () => {
+          input.placeholder = '';
+        });
+
+        this.renderer.listen(input, 'blur', () => {
+          if (input.value === '') {
+            setTimeout(() => {
+              input.placeholder = input.getAttribute('name')?.replace(/([A-Z])/g, ' $1').trim() || '';
+            }, 1000);
+          }
+        });
+      }
+    });
+  }
+
+  onUpdate() {
+    const data = this.form?.value as ProfileUpdateModel;
+
+    // Check if data is unchanged
+    if (JSON.stringify(data) === JSON.stringify(this.formValues)) {
+      console.log("No changes detected, skipping update.");
+      return;
+    }
+
+    this.profileService.updateProfile(this.id as string, data).subscribe((result) => {
+      if (result) {
+        alert('Profile updated successfully');
+      } else {
+        alert('Profile update failed');
+      }
+    });
+  }
+
+  onDelete(event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
+    console.log("Delete button clicked");
     this.profileService.deleteProfile(this.id as string).subscribe((result) => {
       if (result) {
+        console.log("Profile deleted successfully");
         this.store.dispatch(LOGOUT());
+        this.router.navigate(['/login']);
       } else {
+        console.log("Failed to delete profile");
         alert('Cannot delete profile');
       }
     });
