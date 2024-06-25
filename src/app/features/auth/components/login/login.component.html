@@ -1,38 +1,21 @@
 <div class="login-main">
   <div class="login-container">
     <div class="login-image">
-      <img
-        src="../../../../../assets/mental_health_wellness.jpg"
-        alt="Login Image"
-      />
+      <img src="../../../../../assets/mental_health_wellness.jpg" alt="Login Image" />
     </div>
     <div class="login-form">
       <div class="logo">FeelReal</div>
       <h2>Login to Your Account</h2>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="input-group">
+          <input type="email" placeholder="Email" formControlName="email" name="email" required />
           <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            formControlName="username"
-          />
         </div>
         <div class="input-group">
+          <input type="password" placeholder="Password" formControlName="password" name="password" required />
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            formControlName="password"
-          />
         </div>
-        <button [disabled]="!form.valid" type="submit" class="cta-button">
-          Login
-        </button>
+        <button [disabled]="!form.valid" type="submit" class="cta-button">Login</button>
       </form>
       <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
     </div>
