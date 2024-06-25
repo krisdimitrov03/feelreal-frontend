@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { AfterViewInit, Component, inject, Renderer2 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { AsyncPipe } from '@angular/common';
 import { Profile, ProfileUpdateModel } from '../../../../shared/models/Profile';
@@ -32,9 +32,10 @@ type FormControls = {
   templateUrl: './manage-profile.component.html',
   styleUrl: './manage-profile.component.sass',
 })
-export class ManageProfileComponent {
+export class ManageProfileComponent implements AfterViewInit {
   profileService = inject(ProfileService);
   authService = inject(AuthService);
+  renderer = inject(Renderer2);
 
   profile$: Observable<Profile> | null = null;
   jobs$: Observable<any[]> = this.authService.getJobs();
@@ -98,8 +99,35 @@ export class ManageProfileComponent {
             ),
             jobId: new FormControl(this.formValues.jobId, Validators.required),
           });
+
+          this.addPlaceholderHandlers();
         });
       });
+    });
+  }
+
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
+    const height = document.querySelector('.unauthenticated-header')?.clientHeight as number;
+    window.scrollTo(0, height);
+  }
+
+  addPlaceholderHandlers() {
+    const inputs = document.querySelectorAll('.input-group input, .input-group select');
+    inputs.forEach(input => {
+      if (input instanceof HTMLInputElement) {
+        this.renderer.listen(input, 'focus', () => {
+          input.placeholder = '';
+        });
+
+        this.renderer.listen(input, 'blur', () => {
+          if (input.value === '') {
+            setTimeout(() => {
+              input.placeholder = input.getAttribute('name')?.replace(/([A-Z])/g, ' $1').trim() || '';
+            }, 1000);
+          }
+        });
+      }
     });
   }
 
@@ -107,16 +135,13 @@ export class ManageProfileComponent {
     const data = this.form?.value as ProfileUpdateModel;
     console.log(data);
     
-
-    this.profileService
-      .updateProfile(this.id as string, data)
-      .subscribe((result) => {
-        if (result) {
-          alert('Profile updated successfully');
-        } else {
-          alert('Profile update failed');
-        }
-      });
+    this.profileService.updateProfile(this.id as string, data).subscribe((result) => {
+      if (result) {
+        alert('Profile updated successfully');
+      } else {
+        alert('Profile update failed');
+      }
+    });
   }
 
   onDelete() {
