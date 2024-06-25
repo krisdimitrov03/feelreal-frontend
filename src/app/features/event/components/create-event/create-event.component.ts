@@ -34,7 +34,7 @@ export class CreateEventComponent {
       this.eventService.create(newEvent).subscribe(
         (event) => {
           console.log('Event created:', event);
-          this.router.navigate(['/calendar']);
+          this.router.navigate(['/event/calendar']);
         }
       );
     }

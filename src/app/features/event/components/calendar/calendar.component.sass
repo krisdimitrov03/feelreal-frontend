@@ -1,128 +1,231 @@
-// src/app/features/calendar/calendar.component.sass
-$primary-color: #60c751
-$secondary-color: #428b39
-$hover-bg-color: #bcffb3
-$event-bg-color: #deffd9
-$hover-event-bg-color: darken($primary-color, 10%)
-$header-bg-color: $primary-color
-$text-color: #ffffff
-$border-color: #ddd
-$shadow-color: rgba(0, 0, 0, 0.1)
+$primary-color: #ff7e5f
+$secondary-color: #feb47b
+$background-color: #f7f9fc
+$text-color: #333
+$header-bg-color: #ff7e5f
+$header-text-color: white
+$day-header-bg-color: lighten($primary-color, 20%)
+$day-header-text-color: white
+$outside-month-bg-color: #f1f1f1
+$event-text-color: white
+
+$event-color1: #ff7e5f
+$event-color2: #feb47b
+$event-color3: #fca3cc
+$event-color4: #a3e1fc
+$event-color5: #f5a623
+
+.calendar-container
+  width: 90%
+  max-width: 100%
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin: auto
+  position: relative
+
+.add-event-button
+  background-color: $primary-color
+  color: white
+  border-radius: 50%
+  text-decoration: none
+  font-weight: bold
+  transition: background-color 0.3s ease
+  border: none
+  cursor: pointer
+  font-size: 1.5em
+  width: 60px
+  height: 60px
+  position: fixed
+  bottom: 20px
+  right: 20px
+  display: flex
+  align-items: center
+  justify-content: center
+
+  &:hover
+    background-color: $secondary-color
 
 .calendar
   width: 100%
-  max-width: 800px
-  margin: auto
-  font-family: 'Arial', sans-serif
-  border: 1px solid $border-color
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+  border-radius: 10px
+  background-color: white
   overflow: hidden
-  box-shadow: 0 4px 8px $shadow-color
 
-  .calendar-header
+  &-header
     display: flex
     justify-content: space-between
     align-items: center
-    padding: 10px 20px
     background-color: $header-bg-color
-    color: $text-color
-    font-size: 1.5em
+    color: $header-text-color
+    padding: 1em
 
     .calendar-nav
       background: none
       border: none
-      font-size: 1em
-      color: $text-color
+      color: $header-text-color
+      font-size: 1.2em
       cursor: pointer
+      padding: 0.5em
+      transition: background-color 0.3s ease
+      display: flex
+      align-items: center
+      justify-content: center
+      border-radius: 50%
+      width: 2em
+      height: 2em
 
-  .calendar-title
-    margin: 0
+      &:hover
+        background-color: lighten($header-bg-color, 10%)
 
-  .calendar-grid
+  &-title
+    font-size: 1.8em
+    font-weight: bold
+
+  &-grid
     display: grid
     grid-template-columns: repeat(7, 1fr)
     gap: 1px
-    background-color: #f0f0f0
+    background-color: $day-header-bg-color
 
-  .day-header
-    background-color: $secondary-color
-    text-align: center
-    padding: 10px
-    font-weight: bold
-    color: $text-color
-    border-bottom: 2px solid $border-color
+    .day-header
+      background-color: $day-header-bg-color
+      color: $day-header-text-color
+      padding: 1em
+      text-align: center
+      font-weight: bold
+      font-size: 1.2em
 
-  .calendar-day
-    background-color: #ffffff
-    padding: 10px
-    min-height: 100px
-    display: flex
-    flex-direction: column
-    border-bottom: 1px solid $border-color
-    transition: background-color 0.3s ease
-
-    &.outside-month
-      opacity: 0.5
-
-    &:hover
-      background-color: $hover-bg-color
-
-  .date
-    font-weight: bold
-    margin-bottom: 10px
-    color: #000000
-    font-size: 1.2em
-
-  .events
-    flex-grow: 1
-
-  .event
-    background-color: $event-bg-color
-    color: #000000
-    padding: 5px
-    margin-top: 5px
-    border-radius: 3px
-    font-size: 0.9em
-    text-align: center
-    cursor: pointer
-    transition: background-color 0.3s ease
-
-    &:hover
-      background-color: $hover-event-bg-color
-      color: $text-color
-
-  .event-popup
-    position: absolute
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
-    background: #fff
-    padding: 20px
-    box-shadow: 0 4px 8px $shadow-color
-    border-radius: 8px
-    z-index: 10
-    width: 300px
-
-    h3
-      margin-top: 0
-
-    button
-      margin-right: 10px
-      padding: 5px 10px
-      background-color: $primary-color
-      color: $text-color
-      border: none
-      border-radius: 3px
+    .calendar-day
+      background-color: white
+      padding: 1.5em
       cursor: pointer
-      transition: background-color 0.3s
+      transition: background-color 0.3s ease
+      display: flex
+      flex-direction: column
+      align-items: flex-start
 
       &:hover
-        background-color: darken($primary-color, 10%)
+        background-color: lighten($background-color, 40%)
 
-      &.delete-button
-        background-color: red
+      &.outside-month
+        background-color: $outside-month-bg-color
+
+      .date
+        font-size: 1.4em
+        margin-bottom: 0.5em
+
+      .events
+        width: 100%
+
+        .event
+          padding: 0.4em 0.2em
+          border-radius: 5px
+          margin-bottom: 0.3em
+          font-size: 1em
+          transition: background-color 0.3s ease
+          cursor: pointer
+          width: 100%
+          text-align: center
+          color: $event-text-color
+          &:nth-child(1)
+            background-color: $event-color1
+          &:nth-child(2)
+            background-color: $event-color2
+          &:nth-child(3)
+            background-color: $event-color3
+          &:nth-child(4)
+            background-color: $event-color4
+          &:nth-child(5)
+            background-color: $event-color5
+          &:hover
+            filter: brightness(90%)
+
+.event-popup
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  background-color: white
+  padding: 2em
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+  border-radius: 10px
+  width: 80%
+  max-width: 600px
+  z-index: 1000
+  text-align: center
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  .close-button
+    background: none
+    border: none
+    color: $text-color
+    font-size: 1.5em
+    cursor: pointer
+    position: absolute
+    top: 1em
+    right: 1em
+
+    &:hover
+      color: darken($text-color, 20%)
+
+  .popup-content
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+    width: 100%
+
+    .event-info
+      text-align: left
+      flex: 2
+
+      h3
+        margin-top: 0
+        font-size: 1.8em
+
+        p
+          margin: 0.5em 0
+          font-size: 1.2em
+          display: flex
+          align-items: center
+
+          i
+            margin-right: 0.5em
+
+    .popup-buttons
+      display: flex
+      flex-direction: column
+      justify-content: flex-start
+      align-items: center
+      flex: 1
+
+      .popup-button
+        background-color: $primary-color
+        color: white
+        padding: 1em
+        border-radius: 50%
+        text-decoration: none
+        font-weight: bold
+        transition: background-color 0.3s ease
+        border: none
+        cursor: pointer
+        margin: 0.5em
+        display: flex
+        align-items: center
+        justify-content: center
+        font-size: 1.2em
 
         &:hover
-          background-color: darken(red, 10%)
+          background-color: $secondary-color
 
-    &:last-child
-      margin-right: 0
+      .edit-button
+        background-color: $primary-color
+
+      .delete-button
+        background-color: #ff4d4d
+
+        &:hover
+          background-color: #ff1a1a
