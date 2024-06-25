@@ -68,9 +68,12 @@ nav .dropdown-content a
     align-items: center
     font-weight: bold
     transition: background-color 0.3s ease
+    width: 100% 
+    margin-left: 0
 
 nav .dropdown-content a i
     margin-right: 10px
+    margin-left: 10px
 
 nav .dropdown-content a:hover
     background-color: #f1f1f1
@@ -115,3 +118,18 @@ nav .dropdown-content.show
 
 .authenticated-header .dropdown-content
     background-color: #f7f9fc
+    
+nav
+  .nav-links
+    a
+      cursor: pointer // Change cursor to pointer on hover
+      &:hover
+        font-weight: bold // Make text bold on hover
+
+  .profile-dropdown
+    cursor: pointer // Change cursor to pointer on hover
+    .profile-link
+      cursor: pointer // Change cursor to pointer on hover
+    .dropdown-content
+      a
+        cursor: pointer // Change cursor to pointer on hover

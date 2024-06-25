@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { first } from 'rxjs';
@@ -17,6 +17,7 @@ import { AsyncPipe, NgFor, NgForOf } from '@angular/common';
 })
 export class RegisterComponent implements AfterViewInit {
   authService = inject(AuthService);
+  renderer = inject(Renderer2);
 
   jobs$ = this.authService.getJobs();
 
@@ -37,6 +38,25 @@ export class RegisterComponent implements AfterViewInit {
     window.scrollTo(0, 0);
     const height = document.querySelector('.unauthenticated-header')?.clientHeight as number;
     window.scrollTo(0, height);
+
+    this.addPlaceholderHandlers();
+  }
+
+  addPlaceholderHandlers() {
+    const inputs = document.querySelectorAll('.input-group input, .input-group select');
+    inputs.forEach(input => {
+      if (input instanceof HTMLInputElement) {
+        this.renderer.listen(input, 'focus', () => {
+          input.placeholder = '';
+        });
+
+        this.renderer.listen(input, 'blur', () => {
+          if (input.value === '') {
+            input.placeholder = input.getAttribute('name')?.replace(/([A-Z])/g, ' $1').trim() || '';
+          }
+        });
+      }
+    });
   }
 
   onSubmit() {
@@ -49,5 +69,4 @@ export class RegisterComponent implements AfterViewInit {
     
     this.store.dispatch(REGISTER(formData as RegisterDTO));
   }
-
 }
