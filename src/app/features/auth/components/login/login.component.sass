@@ -1,31 +1,34 @@
-.login-main
+.login-main,
+.register-container
   display: flex
   justify-content: center
   align-items: center
-  margin: 5rem
+  width: 100%
+  height: 100%
+  background-color: #f7f9fc
+  margin: 5rem 0
 
 .login-container
   display: flex
-  width: 800px
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+  width: 75%
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1)
   border-radius: 10px
-  overflow: hidden
   background-color: #fff
 
 .login-image
-  flex: 1
+  width: 60%
 
 .login-image img
+  border-radius: 10px 0 0 10px
   width: 100%
   height: 100%
   object-fit: cover
 
 .login-form
-  flex: 1
+  width: 40%
   padding: 3em
   display: flex
   flex-direction: column
-  justify-content: center
   align-items: center
 
 .logo
@@ -34,7 +37,8 @@
   color: #ff7e5f
   margin-bottom: 1em
 
-.login-form h2
+.login-form h2,
+.register-form h2
   margin-bottom: 1.5em
   color: #333
   font-size: 1.8em
@@ -42,21 +46,35 @@
 
 .input-group
   width: 100%
+  position: relative
   margin-bottom: 1.5em
-  text-align: left
 
 .input-group label
-  display: block
-  margin-bottom: 0.5em
-  color: #333
+  position: absolute
+  top: 1em
+  left: 0.75em
+  background: white
+  padding: 0 0.5em
+  transition: top 0.3s, font-size 0.3s, color 0.3s
+  color: #aaa
+  pointer-events: none
 
-.input-group input
+.input-group input,
+.input-group select
   width: 100%
-  padding: 0.8em
+  padding: 1em 0.8em
   border-radius: 5px
   border: 1px solid #ccc
   font-size: 1em
   box-sizing: border-box
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group select:focus + label,
+.input-group select:not(:placeholder-shown) + label
+  top: -0.6em
+  font-size: 0.75em
+  color: #ff7e5f
 
 .cta-button
   background-color: #ff7e5f
@@ -76,12 +94,14 @@
 .cta-button:hover
   background-color: #feb47b
 
-.login-form p
+.login-form p,
+.register-form p
   margin-top: 1em
   color: #333
   text-align: center
 
-.login-form a
+.login-form a,
+.register-form a
   color: #ff7e5f
   text-decoration: none
   font-weight: bold

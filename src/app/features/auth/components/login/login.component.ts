@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Renderer2 } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import {
   FormControl,
@@ -21,6 +21,7 @@ import { RouterModule } from '@angular/router';
 })
 export class LoginComponent implements AfterViewInit {
   authService = inject(AuthService);
+  renderer = inject(Renderer2);
 
   form = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -33,11 +34,31 @@ export class LoginComponent implements AfterViewInit {
     window.scrollTo(0, 0);
     const height = document.querySelector('.unauthenticated-header')?.clientHeight as number;
     window.scrollTo(0, height);
+
+    this.addPlaceholderHandlers();
+  }
+
+  addPlaceholderHandlers() {
+    const inputs = document.querySelectorAll('.input-group input, .input-group select');
+    inputs.forEach(input => {
+      if (input instanceof HTMLInputElement) {
+        this.renderer.listen(input, 'focus', () => {
+          input.placeholder = '';
+        });
+
+        this.renderer.listen(input, 'blur', () => {
+          if (input.value === '') {
+            setTimeout(() => {
+              input.placeholder = input.getAttribute('name')?.replace(/([A-Z])/g, ' $1').trim() || '';
+            }, 1000);
+          }
+        });
+      }
+    });
   }
 
   onSubmit() {
     const formData = this.form.value as LoginDTO;
-
     this.store.dispatch(LOGIN(formData));
   }
 }
