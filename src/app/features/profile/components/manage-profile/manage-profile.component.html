@@ -1,111 +1,131 @@
-<!-- @if ((profile$ | async); as profile) {
-<div class="profile">
-  <div class="profile__header">
-    <h1 class="profile__title">Manage Profile</h1>
-  </div>
-  <div class="profile__content">
-    <form [formGroup]="form" (ngSubmit)="onUpdate()">
-      <label for="username">Username:</label>
-      <input
-        name="username"
-        formControlName="username"
-        type="text"
-      /><br /><br />
-      <label for="email">Email:</label>
-      <input formControlName="email" name="email" type="text" /><br /><br />
-      <label for="firstName">FirstName:</label>
-      <input
-        name="firstName"
-        formControlName="firstName"
-        type="text"
-      /><br /><br />
-      <label for="lastName">LastName:</label>
-      <input
-        name="lastName"
-        formControlName="lastName"
-        type="text"
-      /><br /><br />
-      <label for="dateOfBirth">Date of Birth:</label>
-      <input
-        name="dateOfBirth"
-        formControlName="dateOfBirth"
-        type="date"
-      /><br /><br />
-      <label for="jobId">Job:</label>
-      <select name="jobId" formControlName="jobId">
-        @for (job of (jobs$ | async); track $index) {
-        <option [value]="job.id">
-          {{ job.name }}
-        </option>
-        }</select
-      ><br /><br />
-
-      <button type="submit">Save</button>
-    </form>
-
-    <button (click)="onDelete()">Delete profile</button>
-  </div>
-</div>
-} @else {
-<div class="loader">Loading...</div>
-} -->
-
-<div class="profile-container">
+<!-- <div class="profile-container">
   @if ((profile$ | async); as profile) {
   <div class="profile">
-    <div class="profile__header">
-      <h1 class="profile__title">Manage Profile</h1>
-    </div>
-    <div class="profile__content">
-      <form [formGroup]="form" (ngSubmit)="onUpdate()">
-        <div class="form-row">
-          <div class="input-group">
-            <label for="username">Username:</label>
-            <input name="username" formControlName="username" type="text" />
-          </div>
-          <div class="input-group">
-            <label for="email">Email:</label>
-            <input formControlName="email" name="email" type="text" />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="input-group">
-            <label for="firstName">First Name:</label>
-            <input name="firstName" formControlName="firstName" type="text" />
-          </div>
-          <div class="input-group">
-            <label for="lastName">Last Name:</label>
-            <input name="lastName" formControlName="lastName" type="text" />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="input-group">
-            <label for="dateOfBirth">Date of Birth:</label>
-            <input
-              name="dateOfBirth"
-              formControlName="dateOfBirth"
-              type="date"
-            />
-          </div>
-          <div class="input-group">
-            <label for="jobId">Job:</label>
-            <select name="jobId" formControlName="jobId" class="styled-select">
-              @for (job of (jobs$ | async); track $index) {
-              <option [value]="job.id">
-                {{ job.name }}
-              </option>
-              }
-            </select>
-          </div>
-        </div>
-        <div class="form-row full-width">
-          <button type="submit" class="cta-button">Save</button>
-        </div>
-      </form>
-      <button class="delete-button" (click)="onDelete()">Delete Profile</button>
-    </div>
+      <div class="profile__header">
+          <h1 class="profile__title">Manage Profile</h1>
+      </div>
+      <div class="profile__content">
+          <form [formGroup]="form" (ngSubmit)="onUpdate()">
+              <div class="form-row">
+                  <div class="input-group">
+                      <label for="username">Username:</label>
+                      <input name="username" formControlName="username" type="text" />
+                  </div>
+                  <div class="input-group">
+                      <label for="email">Email:</label>
+                      <input formControlName="email" name="email" type="text" />
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="input-group">
+                      <label for="firstName">First Name:</label>
+                      <input name="firstName" formControlName="firstName" type="text" />
+                  </div>
+                  <div class="input-group">
+                      <label for="lastName">Last Name:</label>
+                      <input name="lastName" formControlName="lastName" type="text" />
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="input-group">
+                      <label for="dateOfBirth">Date of Birth:</label>
+                      <input name="dateOfBirth" formControlName="dateOfBirth" type="date" />
+                  </div>
+                  <div class="input-group">
+                      <label for="jobId">Job:</label>
+                      <select name="jobId" formControlName="jobId" class="styled-select">
+                          @for (job of (jobs$ | async); track $index) {
+                          <option [value]="job.id">
+                              {{ job.name }}
+                          </option>
+                          }
+                      </select>
+                  </div>
+              </div>
+              <div class="form-row full-width">
+                  <button type="submit" class="cta-button">Save</button>
+              </div>
+          </form>
+          <button class="delete-button" (click)="openModal()">Delete Profile</button>
+      </div>
   </div>
   } @else {
   <div class="loader">Loading...</div>
   }
+</div>
+
+<!-- Modal -->
+<!-- <div id="deleteModal" class="modal">
+  <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Are you sure you want to delete your profile?</h2>
+      <button class="cta-button" (click)="onDelete()">Yes, delete it</button>
+      <button class="cancel-button" (click)="closeModal()">Cancel</button>
+  </div>
+</div> -->
+
+<div class="profile-container">
+  @if ((profile$ | async); as profile) {
+  <div class="profile">
+      <div class="profile__header">
+          <h1 class="profile__title"><i class="fas fa-user-circle"></i> Manage Profile</h1>
+      </div>
+      <div class="profile__content">
+          <form [formGroup]="form" (ngSubmit)="onUpdate()">
+              <div class="form-row">
+                  <div class="input-group">
+                      <label for="username">Username:</label>
+                      <input name="username" formControlName="username" type="text" />
+                  </div>
+                  <div class="input-group">
+                      <label for="email">Email:</label>
+                      <input formControlName="email" name="email" type="text" />
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="input-group">
+                      <label for="firstName">First Name:</label>
+                      <input name="firstName" formControlName="firstName" type="text" />
+                  </div>
+                  <div class="input-group">
+                      <label for="lastName">Last Name:</label>
+                      <input name="lastName" formControlName="lastName" type="text" />
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="input-group">
+                      <label for="dateOfBirth">Date of Birth:</label>
+                      <input name="dateOfBirth" formControlName="dateOfBirth" type="date" />
+                  </div>
+                  <div class="input-group">
+                      <label for="jobId">Job:</label>
+                      <select name="jobId" formControlName="jobId" class="styled-select">
+                          @for (job of (jobs$ | async); track $index) {
+                          <option [value]="job.id">
+                              {{ job.name }}
+                          </option>
+                          }
+                      </select>
+                  </div>
+              </div>
+              <div class="form-row full-width">
+                  <button type="submit" class="cta-button"><i class="fas fa-save"></i> Save</button>
+              </div>
+          </form>
+          <button class="delete-button" (click)="openModal()"><i class="fas fa-trash-alt"></i> Delete Profile</button>
+      </div>
+  </div>
+  } @else {
+  <div class="loader">Loading...</div>
+  }
+</div>
+
+<!-- Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2><i class="fas fa-exclamation-circle"></i> Are you sure you want to delete your profile?</h2>
+      <button class="cta-button" (click)="onDelete()"><i class="fas fa-check-circle"></i> Yes, delete it</button>
+      <button class="cancel-button" (click)="closeModal()"><i class="fas fa-times-circle"></i> Cancel</button>
+  </div>
 </div>

@@ -105,6 +105,8 @@ export class ManageProfileComponent {
 
   onUpdate() {
     const data = this.form?.value as ProfileUpdateModel;
+    console.log(data);
+    
 
     this.profileService
       .updateProfile(this.id as string, data)
@@ -125,5 +127,15 @@ export class ManageProfileComponent {
         alert('Cannot delete profile');
       }
     });
+  }
+
+  openModal() {
+    const modal = document.querySelector('#deleteModal') as HTMLDivElement;
+    modal.style.display = 'block';
+  }
+
+  closeModal() {
+    const modal = document.querySelector('#deleteModal') as HTMLDivElement;
+    modal.style.display = 'none';
   }
 }
