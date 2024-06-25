@@ -1,211 +1,228 @@
 .profile-container
-    display: flex
-    justify-content: center
-    align-items: center
-    width: 100%
-    height: 100%
-    background-color: #f7f9fc
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100%
+  height: 100%
+  background-color: #f7f9fc
+  margin: 5rem 0
 
 .profile
-    width: 700px
-    padding: 3em
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1)
-    border-radius: 10px
-    background-color: #fff
-    display: flex
-    flex-direction: column
-    align-items: center
+  width: 600px
+  padding: 3em
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+  border-radius: 10px
+  background-color: #fff
+  display: flex
+  flex-direction: column
+  align-items: center
 
 .profile__header
-    text-align: center
-    margin-bottom: 1em
+  width: 100%
+  text-align: center
+  margin-bottom: 1.5em
 
 .profile__title
-    font-size: 2em
-    color: #ff7e5f
-
-.profile__title i
-    margin-right: 0.5em
+  font-size: 2em
+  font-weight: bold
+  color: #ff7e5f
 
 .profile__content
-    width: 100%
+  width: 100%
 
 .form-row
-    display: flex
-    justify-content: space-between
-    width: 100%
-    margin-bottom: 1.5em
-
-.form-row.full-width
-    display: block
+  width: 100%
+  display: flex
+  justify-content: space-between
+  margin-bottom: 1.5em
 
 .input-group
-    width: 48%
-    text-align: left
-
-.input-group.full-width
-    width: 100%
+  width: 48%
+  position: relative
+  margin-bottom: 1.5em
 
 .input-group label
-    display: block
-    margin-bottom: 0.5em
-    color: #333
+  position: absolute
+  top: 1em
+  left: 0.75em
+  background: white
+  padding: 0 0.5em
+  transition: top 0.3s, font-size 0.3s, color 0.3s
+  color: #aaa
+  pointer-events: none
 
 .input-group input,
 .input-group select
-    width: 100%
-    padding: 0.8em
-    border-radius: 5px
-    border: 1px solid #ccc
-    font-size: 1em
-    box-sizing: border-box
+  width: 100%
+  padding: 1em 0.8em
+  border-radius: 5px
+  border: 1px solid #ccc
+  font-size: 1em
+  box-sizing: border-box
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group select:focus + label,
+.input-group select:not(:placeholder-shown) + label
+  top: -0.6em
+  font-size: 0.75em
+  color: #ff7e5f
 
 .input-group select.styled-select
-    appearance: none
-    background: url('https://img.icons8.com/ios-filled/50/000000/sort-down.png') no-repeat right 0.75em center
-    background-color: white
-    background-size: 1em
-    padding-right: 2.5em
+  appearance: none
+  background: url('https://img.icons8.com/ios-filled/50/000000/sort-down.png') no-repeat right 0.75em center
+  background-color: white
+  background-size: 1em
+  padding-right: 2.5em
 
 .input-group input[type="date"]
-    padding-right: 1em
+  padding-right: 1em
+  height: 100%
 
-.cta-button
-    background-color: #ff7e5f
-    color: white
-    padding: 0.8em
-    border-radius: 25px
-    text-decoration: none
-    font-weight: bold
-    transition: background-color 0.3s ease
-    border: none
-    cursor: pointer
-    width: 100%
-    font-size: 1em
-    margin-top: 1.5em
-    box-sizing: border-box
-    display: flex
-    align-items: center
-    justify-content: center
+.form-row.full-width
+  display: flex
+  justify-content: space-between
+  width: 100%
 
-.cta-button i
-    margin-right: 0.5em
+.cta-button,
+.delete-button
+  background-color: #ff7e5f
+  color: white
+  padding: 0.8em
+  border-radius: 25px
+  text-decoration: none
+  font-weight: bold
+  transition: background-color 0.3s ease
+  border: none
+  cursor: pointer
+  width: 48%
+  font-size: 1em
+  margin-top: 1.5em
+  box-sizing: border-box
+  text-align: center
 
 .cta-button:hover
-    background-color: #feb47b
+  background-color: #feb47b
 
 .delete-button
-    background-color: #ff4d4d
-    color: white
-    padding: 0.8em
-    border-radius: 25px
-    text-decoration: none
-    font-weight: bold
-    transition: background-color 0.3s ease
-    border: none
-    cursor: pointer
-    width: 100%
-    font-size: 1em
-    margin-top: 1em
-    box-sizing: border-box
-    display: flex
-    align-items: center
-    justify-content: center
-
-.delete-button i
-    margin-right: 0.5em
+  background-color: #ff4e4e
 
 .delete-button:hover
-    background-color: #ff1a1a
+  background-color: #ff1e1e
 
-.loader
-    font-size: 1.5em
-    color: #ff7e5f
-    display: flex
-    justify-content: center
-    align-items: center
+.profile__buttons
+  display: flex
+  justify-content: space-between
+  width: 100%
+  margin-top: 1.5em
 
-.loader::after
-    content: ' '
-    display: inline-block
-    width: 1em
-    height: 1em
-    border: 2px solid currentColor
-    border-top: 2px solid transparent
-    border-radius: 50%
-    animation: spin 1s linear infinite
-    margin-left: 0.5em
-
-@keyframes spin
-    0%
-        transform: rotate(0deg)
-    100%
-        transform: rotate(360deg)
-
-// Modal Styles
 .modal
-    display: none
-    position: fixed
-    z-index: 1000
-    left: 0
-    top: 0
-    width: 100%
-    height: 100%
-    overflow: auto
-    background-color: rgba(0,0,0,0.4)
+  display: none
+  position: fixed
+  z-index: 1
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgb(0,0,0)
+  background-color: rgba(0,0,0,0.4)
+  padding-top: 60px
 
 .modal-content
-    background-color: #fff
-    margin: 15% auto
-    padding: 2em
-    border: 1px solid #888
-    width: 400px
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1)
-    border-radius: 10px
-    text-align: center
-
-.modal-content h2
-    display: flex
-    align-items: center
-    justify-content: center
-    font-size: 1.5em
-    color: #ff7e5f
-
-.modal-content h2 i
-    margin-right: 0.5em
+  background-color: #fefefe
+  margin: 5% auto
+  padding: 20px
+  border: 1px solid #888
+  width: 80%
 
 .close
-    color: #aaa
-    float: right
-    font-size: 28px
-    font-weight: bold
+  color: #aaa
+  float: right
+  font-size: 28px
+  font-weight: bold
 
 .close:hover,
 .close:focus
-    color: black
-    text-decoration: none
-    cursor: pointer
+  color: black
+  text-decoration: none
+  cursor: pointer
+
+  .modal
+  display: none
+  position: fixed
+  z-index: 1000
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  background-color: rgba(0, 0, 0, 0.5)
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 20px
+
+.modal-content
+  background-color: #fff
+  padding: 20px
+  border-radius: 10px
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+  width: 100%
+  max-width: 600px
+  text-align: center
+  position: relative
+
+.close
+  position: absolute
+  top: 10px
+  right: 10px
+  color: #aaa
+  font-size: 24px
+  font-weight: bold
+  cursor: pointer
+
+.close:hover,
+.close:focus
+  color: black
+  text-decoration: none
+  cursor: pointer
+
+.modal-content h2
+  margin-bottom: 20px
+  font-size: 1.5em
+  color: #333
+
+.cta-button,
+.cancel-button
+  background-color: #ff7e5f
+  color: white
+  padding: 0.8em
+  border-radius: 25px
+  text-decoration: none
+  font-weight: bold
+  transition: background-color 0.3s ease
+  border: none
+  cursor: pointer
+  width: 48%
+  font-size: 1em
+  margin-top: 1.5em
+  box-sizing: border-box
+  text-align: center
+
+.cta-button:hover
+  background-color: #feb47b
 
 .cancel-button
-    background-color: #ccc
-    color: black
-    padding: 0.8em
-    border-radius: 25px
-    text-decoration: none
-    font-weight: bold
-    transition: background-color 0.3s ease
-    border: none
-    cursor: pointer
-    width: 100%
-    font-size: 1em
-    margin-top: 1em
-    box-sizing: border-box
-    display: flex
-    align-items: center
-    justify-content: center
-
-.cancel-button i
-    margin-right: 0.5em
+  background-color: #ccc
+  margin-left: 4%
+  color: black
 
 .cancel-button:hover
-    background-color: #bbb
+  background-color: #aaa
+
+.modal-buttons
+  display: flex
+  justify-content: center
+  gap: 1em
+  margin-top: 20px
