@@ -52,7 +52,9 @@ export class RegisterComponent implements AfterViewInit {
 
         this.renderer.listen(input, 'blur', () => {
           if (input.value === '') {
-            input.placeholder = input.getAttribute('name')?.replace(/([A-Z])/g, ' $1').trim() || '';
+            setTimeout(() => {
+              input.placeholder = input.getAttribute('name')?.replace(/([A-Z])/g, ' $1').trim() || '';
+            }, 1000);
           }
         });
       }
