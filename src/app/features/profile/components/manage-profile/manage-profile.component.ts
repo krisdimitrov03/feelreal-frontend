@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { AsyncPipe } from '@angular/common';
 import { Profile, ProfileUpdateModel } from '../../../../shared/models/Profile';
@@ -14,10 +14,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthState } from '../../../auth/store/state';
 import { Store } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/store/actions/auth.actions';
-import {
-  selectIsAuthenticated,
-  selectUser,
-} from '../../../auth/store/selectors/auth.selectors';
+import { selectUser } from '../../../auth/store/selectors/auth.selectors';
 
 type FormControls = {
   username: FormControl<any>;
@@ -108,6 +105,8 @@ export class ManageProfileComponent {
 
   onUpdate() {
     const data = this.form?.value as ProfileUpdateModel;
+    console.log(data);
+    
 
     this.profileService
       .updateProfile(this.id as string, data)
@@ -128,5 +127,15 @@ export class ManageProfileComponent {
         alert('Cannot delete profile');
       }
     });
+  }
+
+  openModal() {
+    const modal = document.querySelector('#deleteModal') as HTMLDivElement;
+    modal.style.display = 'block';
+  }
+
+  closeModal() {
+    const modal = document.querySelector('#deleteModal') as HTMLDivElement;
+    modal.style.display = 'none';
   }
 }

@@ -64,6 +64,8 @@ export class RegisterComponent implements AfterViewInit {
   onSubmit() {
     const formData = this.form.value as (RegisterDTO & { confirmPassword: string });
 
+    console.log(formData);
+    
     if (formData.password !== formData.confirmPassword) {
       alert('Password and Confirm password do not match');
       return;
