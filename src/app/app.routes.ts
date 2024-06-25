@@ -9,41 +9,45 @@ import { CreateEventComponent } from './features/event/components/create-event/c
 import { LandingComponent } from './core/components/landing/landing.component';
 
 export const routes: Routes = [
-    {
-      path: '',
-      component: LandingComponent
-    },
-    {
-        path: 'register',
-        component: RegisterComponent
-    },
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'calendar',
-        component: CalendarComponent,
-        canActivate: [authGuard]
-    },
-    { 
-        path: 'createEvent', 
-        component: CreateEventComponent, 
-        canActivate: [authGuard]
-    },
-    {
-        path: 'profile',
-        children: [
-          {
-            path: 'manage/:id',
-            component: ManageProfileComponent,
-          },
-        ],
-        canActivate: [authGuard],                                                     
+  {
+    path: '',
+    component: LandingComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'event',
+    children: [
+      {
+        path: 'create',
+        component: CreateEventComponent,
       },
       {
-        path: 'wellness-check',
-        component: WellnessCheckPromptComponent,
-        canActivate: [authGuard],
+        path: 'calendar',
+        component: CalendarComponent,
       },
+    ],
+    canActivate: [authGuard],
+  },
+  {
+    path: 'profile',
+    children: [
+      {
+        path: 'manage/:id',
+        component: ManageProfileComponent,
+      },
+    ],
+    canActivate: [authGuard],
+  },
+  {
+    path: 'wellness-check',
+    component: WellnessCheckPromptComponent,
+    canActivate: [authGuard],
+  },
 ];

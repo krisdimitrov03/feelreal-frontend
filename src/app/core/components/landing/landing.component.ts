@@ -15,6 +15,6 @@ export class LandingComponent {
   constructor(router: Router, store: Store<AuthState>) {
     store
       .select(selectIsAuthenticated)
-      .subscribe((auth) => auth && router.navigate(['/calendar']));
+      .subscribe((auth) => auth && router.navigate(['/event/calendar']));
   }
 }

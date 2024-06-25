@@ -146,12 +146,6 @@ export class CalendarComponent implements OnInit {
     this.generateDaysInMonth();
   }
 
-  handleDayClick(day: Date): void {
-    this.selectedDate = day;
-    this.selectedDateEvents = this.getEventsForDate(day);
-    this.selectedEvent = null;
-  }
-
   handleEventClick(event: CalendarEvent, eventClick: MouseEvent): void {
     eventClick.stopPropagation(); // Prevent triggering day click
     this.selectedEvent = event;
@@ -170,8 +164,12 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  truncateText(text: string, maxLength: number): string {
+    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+  }
+
   createEvent(): void {
-    this.router.navigate(['/createEvent']);
+    this.router.navigate(['/event/create']);
   }
 
   closePopup(): void {

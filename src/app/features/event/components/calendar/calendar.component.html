@@ -1,43 +1,53 @@
-<!-- src/app/features/calendar/calendar.component.html -->
-<div class="calendar">
-  <div class="calendar-header">
-    <button (click)="previousMonth()" class="calendar-nav">Previous</button>
-    <div class="calendar-title">{{ viewDate | date: 'MMMM yyyy' }}</div>
-    <button (click)="nextMonth()" class="calendar-nav">Next</button>
-  </div>
-  <div class="calendar-grid">
-    <div class="day-header">Sun</div>
-    <div class="day-header">Mon</div>
-    <div class="day-header">Tue</div>
-    <div class="day-header">Wed</div>
-    <div class="day-header">Thu</div>
-    <div class="day-header">Fri</div>
-    <div class="day-header">Sat</div>
-    
-    <div *ngFor="let day of daysInMonth" [class.outside-month]="!day.inCurrentMonth" class="calendar-day" (click)="handleDayClick(day.date)">
-      <div class="date">{{ day.date | date: 'd' }}</div>
-      <div class="events">
-        <div *ngFor="let event of day.events" class="event" (click)="handleEventClick(event, $event)">{{ event.title }}</div>
+<div class="calendar-container">
+  <button (click)="createEvent()" class="add-event-button"><i class="fas fa-plus"></i></button>
+  <div class="calendar">
+      <div class="calendar-header">
+          <button (click)="previousMonth()" class="calendar-nav"><i class="fas fa-chevron-left"></i></button>
+          <div class="calendar-title">{{ viewDate | date: 'MMMM yyyy' }}</div>
+          <button (click)="nextMonth()" class="calendar-nav"><i class="fas fa-chevron-right"></i></button>
       </div>
-    </div>
+      <div class="calendar-grid">
+          <div class="day-header">Sun</div>
+          <div class="day-header">Mon</div>
+          <div class="day-header">Tue</div>
+          <div class="day-header">Wed</div>
+          <div class="day-header">Thu</div>
+          <div class="day-header">Fri</div>
+          <div class="day-header">Sat</div>
+          
+          <div *ngFor="let day of daysInMonth" [class.outside-month]="!day.inCurrentMonth" class="calendar-day">
+              <div class="date">{{ day.date | date: 'd' }}</div>
+              <div class="events">
+                  <div *ngFor="let event of day.events" class="event" (click)="handleEventClick(event, $event)">{{ truncateText(event.title, 10) }}</div>
+              </div>
+          </div>
+      </div>
   </div>
   
   <div *ngIf="selectedEvent" class="event-popup">
-    <h3>{{ selectedEvent.title }}</h3>
-    <p><strong>Start:</strong> {{ selectedEvent.start | date: 'short' }}</p>
-    <p><strong>End:</strong> {{ selectedEvent.end | date: 'short' }}</p>
-    <p><strong>Notes:</strong> {{ selectedEvent.meta?.notes }}</p>
-    <button (click)="editEvent(selectedEvent)">Edit</button>
-    <button (click)="deleteEvent(selectedEvent)" class="delete-button">Delete</button>
-    <button (click)="closePopup()">Close</button>
+      <button class="close-button" (click)="closePopup()"><i class="fas fa-times"></i></button>
+      <div class="popup-content">
+          <div class="event-info">
+              <h3>{{ selectedEvent.title }}</h3>
+              <p><i class="fas fa-calendar-alt"></i> {{ selectedEvent.start | date: 'MMMM d, yyyy, h:mm a' }} - {{ selectedEvent.end | date: 'MMMM d, yyyy, h:mm a' }}</p>
+              <p><i class="fas fa-sticky-note"></i> {{ selectedEvent.meta?.notes }}</p>
+          </div>
+          <div class="popup-buttons">
+              <button (click)="editEvent(selectedEvent)" class="popup-button edit-button"><i class="fas fa-edit"></i></button>
+              <button (click)="deleteEvent(selectedEvent)" class="popup-button delete-button"><i class="fas fa-trash-alt"></i></button>
+          </div>
+      </div>
   </div>
   
   <div *ngIf="selectedDate && !selectedEvent" class="event-popup">
-    <h3>Events for {{ selectedDate | date: 'fullDate' }}</h3>
-    <ul>
-      <li *ngFor="let event of selectedDateEvents">{{ event.title }}</li>
-    </ul>
-    <button (click)="createEvent()">+ Add Event</button>
-    <button (click)="closePopup()">Close</button>
+      <button class="close-button" (click)="closePopup()"><i class="fas fa-times"></i></button>
+      <div class="popup-content">
+          <div class="event-info">
+              <h3>Events for {{ selectedDate | date: 'fullDate' }}</h3>
+              <ul>
+                  <li *ngFor="let event of selectedDateEvents">{{ event.title }}</li>
+              </ul>
+          </div>
+      </div>
   </div>
 </div>
