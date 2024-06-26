@@ -8,6 +8,7 @@ import { WellnessCheckPromptComponent } from './features/wellness-check/componen
 import { CreateEventComponent } from './features/event/components/create-event/create-event.component';
 import { LandingComponent } from './core/components/landing/landing.component';
 import { RecommendationsPageComponent } from './features/recommendation/components/recommendations-page/recommendations-page.component';
+import { EditEventComponent } from './features/event/components/edit/edit-event.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,10 @@ export const routes: Routes = [
         path: 'calendar',
         component: CalendarComponent,
       },
+      {
+        path: 'edit/:id',
+        component: EditEventComponent,
+      }
     ],
     canActivate: [authGuard],
   },
