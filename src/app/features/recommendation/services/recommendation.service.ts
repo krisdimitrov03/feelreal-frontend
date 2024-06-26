@@ -2,16 +2,37 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import api from '../../../core/constants/api-url.constants';
-import { Event } from '../../../shared/models/Event';
+import { Event, EventCreateModel } from '../../../shared/models/Event';
 import { Article } from '../../../shared/models/Article';
 import { Tip } from '../../../shared/models/Tip';
+import { EventService } from '../../event/services/event.service';
 
 const mockTips: Tip[] = [
-  { id: '1', content: 'Stay hydrated to keep your mind and body functioning well.', type: 1 },
-  { id: '2', content: 'Volunteer or help others to enhance your happiness.', type: 1 },
-  { id: '3', content: 'Focus on positive affirmations to shift your mindset.', type: 1 },
-  { id: '4', content: 'Focus on small, manageable tasks to regain a sense of control.', type: 1 },
-  { id: '5', content: 'Distract yourself with a good book or a hobby you enjoy.', type: 1 },
+  {
+    id: '1',
+    content: 'Stay hydrated to keep your mind and body functioning well.',
+    type: 1,
+  },
+  {
+    id: '2',
+    content: 'Volunteer or help others to enhance your happiness.',
+    type: 1,
+  },
+  {
+    id: '3',
+    content: 'Focus on positive affirmations to shift your mindset.',
+    type: 1,
+  },
+  {
+    id: '4',
+    content: 'Focus on small, manageable tasks to regain a sense of control.',
+    type: 1,
+  },
+  {
+    id: '5',
+    content: 'Distract yourself with a good book or a hobby you enjoy.',
+    type: 1,
+  },
 ];
 
 const mockArticle: Article = {
@@ -51,11 +72,9 @@ export class RecommendationService {
       .pipe(catchError((e) => of({} as Article)));
   }
 
-  recommendEvent(): Observable<Event> {
-    // return this.httpClient
-    //   .get<Event>(api.recommendation.event)
-    //   .pipe(catchError((e) => of({} as Event)));
-
-    return of(mockEvent);
+  recommendEvent(): Observable<EventCreateModel> {
+    return this.httpClient
+      .get<Event>(api.recommendation.event)
+      .pipe(catchError((e) => of({} as Event)));
   }
 }
