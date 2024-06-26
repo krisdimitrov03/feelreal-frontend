@@ -1,0 +1,163 @@
+$primary-color: #ff7e5f
+$secondary-color: #feb47b
+$background-color: #f7f9fc
+$text-color: #333
+$header-bg-color: #ff7e5f
+$header-text-color: white
+
+body
+    font-family: 'Roboto', sans-serif
+    margin: 0
+    padding: 0
+    color: $text-color
+    background-color: $background-color
+    display: flex
+    flex-direction: column
+    align-items: center
+    height: 100vh
+
+.recommendations-page
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+
+.recommendations-header
+    background-color: $header-bg-color
+    color: $header-text-color
+    width: 100%
+    padding: 2em
+    text-align: center
+
+h1
+    margin: 0
+    font-size: 2.5em
+
+p
+    margin: 0.5em 0 0
+
+.recommendations-main
+    flex: 1
+    padding: 2em
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 100%
+
+.hero
+    background-color: $secondary-color
+    padding: 2em
+    border-radius: 10px
+    width: 100%
+    max-width: 1200px
+    text-align: center
+
+h2
+    margin-top: 0
+    font-size: 2em
+
+.featured-recommendation
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    margin-top: 1em
+
+    img
+        max-width: 200px
+        border-radius: 10px
+        margin-right: 2em
+
+    .description
+        text-align: left
+
+    h3
+        margin-top: 0
+        font-size: 1.5em
+
+    p
+        margin: 0.5em 0 0
+
+.content-feed
+    width: 100%
+    max-width: 1200px
+    margin-top: 2em
+
+.column
+    width: 100%
+    margin-bottom: 2em
+
+    h2
+        text-align: center
+        font-size: 1.8em
+
+    .carousel-container
+        position: relative
+        display: flex
+        align-items: center
+
+    .carousel
+        display: flex
+        overflow: hidden
+        scroll-behavior: smooth
+        width: 100%
+
+        .carousel-item
+            min-width: 100%
+            background-color: white
+            border-radius: 10px
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+            padding: 1em
+            text-align: center
+            display: flex
+            flex-direction: column
+            justify-content: center
+
+        h3
+            margin-top: 0
+            font-size: 1.5em
+
+        p
+            font-size: 1em
+            margin: 0.5em 0
+
+    .carousel-button
+        background-color: $primary-color
+        color: white
+        border: none
+        border-radius: 50%
+        width: 40px
+        height: 40px
+        display: flex
+        align-items: center
+        justify-content: center
+        cursor: pointer
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+
+        &:hover
+            background-color: $secondary-color
+
+        &.prev
+            left: 10px
+
+        &.next
+            right: 10px
+
+.engagement-boosters
+    background-color: $primary-color
+    color: $header-text-color
+    padding: 2em
+    border-radius: 10px
+    width: 100%
+    max-width: 1200px
+    text-align: center
+    margin-top: 2em
+
+h2
+    margin-top: 0
+    font-size: 2em
+
+p
+    font-size: 1.2em
