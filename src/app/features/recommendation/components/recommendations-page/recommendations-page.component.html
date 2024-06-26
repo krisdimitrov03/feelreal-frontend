@@ -1,110 +1,95 @@
 @if ((username$ | async); as username) {
-    <div class="recommendations-page">
-        <div class="recommendations-header">
-            <h1>Recommended for You</h1>
-            <p>Welcome, <span class="username">User</span>! Here are your recommendations for today.</p>
+<div class="recommendations-page">
+  <div class="recommendations-header">
+    <h1>Recommended for You</h1>
+    <p>
+      <span class="username">{{ username }}</span
+      >! Here are your recommendations for today.
+    </p>
+  </div>
+  <div class="recommendations-main">
+    <section class="hero">
+      <h2>Featured Recommendation</h2>
+      <div class="featured-recommendation">
+        <img src="featured.jpg" alt="Featured Recommendation Image" />
+        <div class="description">
+          <p>
+            Discover the best advice and tips handpicked just for you. Stay
+            ahead with our top recommendation!
+          </p>
         </div>
-        <div class="recommendations-main">
-            <section class="hero">
-                <h2>Featured Recommendation</h2>
-                <div class="featured-recommendation">
-                    <img src="featured.jpg" alt="Featured Recommendation Image">
-                    <div class="description">
-                        <h3>Top Pick of the Day</h3>
-                        <p>Discover the best advice and tips handpicked just for you. Stay ahead with our top recommendation!</p>
-                    </div>
-                </div>
-            </section>
-            <section class="content-feed">
-                <div class="column">
-                    <h2>Daily Tips</h2>
-                    <div class="carousel-container">
-                        <button class="carousel-button prev" onclick="moveCarousel('tips-carousel', -1)">&#10094;</button>
-                        <div class="carousel tips-carousel" id="tips-carousel">
-                            <div class="carousel-item tip-card">
-                                <h3>Tip #1</h3>
-                                <p>Start your day with a glass of water.</p>
-                            </div>
-                            <div class="carousel-item tip-card">
-                                <h3>Tip #2</h3>
-                                <p>Take short breaks during work to stay refreshed.</p>
-                            </div>
-                            <div class="carousel-item tip-card">
-                                <h3>Tip #3</h3>
-                                <p>Exercise regularly to maintain good health.</p>
-                            </div>
-                            <div class="carousel-item tip-card">
-                                <h3>Tip #4</h3>
-                                <p>Set achievable goals to stay motivated.</p>
-                            </div>
-                            <div class="carousel-item tip-card">
-                                <h3>Tip #5</h3>
-                                <p>Maintain a balanced diet for overall wellness.</p>
-                            </div>
-                        </div>
-                        <button class="carousel-button next" onclick="moveCarousel('tips-carousel', 1)">&#10095;</button>
-                    </div>
-                </div>
-                <div class="column">
-                    <h2>Recommended Articles</h2>
-                    <div class="carousel-container">
-                        <button class="carousel-button prev" onclick="moveCarousel('articles-carousel', -1)">&#10094;</button>
-                        <div class="carousel articles-carousel" id="articles-carousel">
-                            <div class="carousel-item article-card">
-                                <h3>How to Stay Productive</h3>
-                                <p>Learn effective techniques to boost your productivity. This includes setting clear goals, minimizing distractions, and taking regular breaks to recharge. Additionally, practicing mindfulness can help maintain focus throughout the day.</p>
-                            </div>
-                            <div class="carousel-item article-card">
-                                <h3>Healthy Eating Tips</h3>
-                                <p>Discover the benefits of a balanced diet and how to achieve it. Incorporate a variety of fruits, vegetables, lean proteins, and whole grains into your meals. Avoid processed foods and stay hydrated to maintain energy levels.</p>
-                            </div>
-                            <div class="carousel-item article-card">
-                                <h3>Mindfulness for Beginners</h3>
-                                <p>An introduction to mindfulness practices and their benefits. Start with simple breathing exercises and gradually incorporate mindfulness into your daily routine. This practice can help reduce stress and improve mental clarity.</p>
-                            </div>
-                            <div class="carousel-item article-card">
-                                <h3>Effective Time Management</h3>
-                                <p>Learn strategies to manage your time effectively. Prioritize tasks based on importance and deadlines, and use tools like calendars and to-do lists. Avoid multitasking, as it can reduce efficiency and increase stress.</p>
-                            </div>
-                            <div class="carousel-item article-card">
-                                <h3>Benefits of Regular Exercise</h3>
-                                <p>Understand the importance of regular physical activity. Exercise not only improves physical health but also boosts mental well-being. Aim for at least 30 minutes of moderate exercise daily, such as walking, jogging, or yoga.</p>
-                            </div>
-                        </div>
-                        <button class="carousel-button next" onclick="moveCarousel('articles-carousel', 1)">&#10095;</button>
-                    </div>
-                </div>
-                <h2>Upcoming Events</h2>
-                <div class="carousel-container">
-                    <button class="carousel-button prev" onclick="moveCarousel('events-carousel', -1)">&#10094;</button>
-                    <div class="carousel events-carousel" id="events-carousel">
-                        <div class="carousel-item event-card">
-                            <h3>Webinar on Stress Management</h3>
-                            <p>Join us on 25th June for a session on managing stress effectively.</p>
-                            <button class="add-calendar">Add to Calendar</button>
-                        </div>
-                        <div class="carousel-item event-card">
-                            <h3>Yoga Workshop</h3>
-                            <p>Attend our yoga workshop on 30th June to improve your flexibility and relaxation.</p>
-                            <button class="add-calendar">Add to Calendar</button>
-                        </div>
-                        <div class="carousel-item event-card">
-                            <h3>Nutrition Seminar</h3>
-                            <p>Learn about healthy eating habits on 5th July from our experts.</p>
-                            <button class="add-calendar">Add to Calendar</button>
-                        </div>
-                    </div>
-                    <button class="carousel-button next" onclick="moveCarousel('events-carousel', 1)">&#10095;</button>
-                </div>
-            </section>
-            <section class="engagement-boosters">
-                <h2>Daily Challenge</h2>
-                <p>Today's Challenge: Take a 5-minute mindfulness break.</p>
-                <h2>Upcoming Highlights</h2>
-                <p>Don't miss the upcoming webinar on stress management!</p>
-            </section>
+      </div>
+    </section>
+    <section class="content-feed">
+      <div class="column">
+        <h2>Daily Tips</h2>
+        @if ((tips$ | async); as tips) {
+        <div class="carousel-container">
+          <button
+            class="carousel-button prev"
+            onclick="moveCarousel('tips-carousel', -1)"
+          >
+            &#10094;
+          </button>
+          <div class="carousel tips-carousel" id="tips-carousel">
+            @for (tip of tips; track tip) {
+            <div class="carousel-item tip-card">
+              <p>{{ tip.content }}</p>
+            </div>
+            }
+          </div>
+          <button
+            class="carousel-button next"
+            onclick="moveCarousel('tips-carousel', 1)"
+          >
+            &#10095;
+          </button>
         </div>
-    </div>
+        } @else {
+        <div>Loading...</div>
+        }
+      </div>
+      <div class="column">
+        <h2>Recommended Articles</h2>
+        @if ((article$ | async); as article) {
+        <div class="carousel-container">
+          <div class="carousel articles-carousel" id="articles-carousel">
+            <div class="carousel-item article-card">
+              <h3>{{ article.title }}</h3>
+              <p>{{ article.content }}</p>
+            </div>
+          </div>
+          <button>Suggest next</button>
+        </div>
+        } @else {
+        <div>Loading...</div>
+        }
+      </div>
+      <h2>Upcoming Events</h2>
+      @if ((event$ | async); as event) {
+      <div class="carousel-container">
+        <div class="carousel events-carousel" id="events-carousel">
+          <div class="carousel-item event-card">
+            <h3>{{ event.title }}</h3>
+            <h4>{{event.dateTimeStart}} - {{event.dateTimeEnd}}</h4>
+            <p>
+              {{ event.notes }}
+            </p>
+            <button class="add-calendar">Add to Calendar</button>
+          </div>
+        </div>
+        <button>Suggest next</button>
+      </div>
+      } @else {
+      <div>Loading...</div> 
+      }
+    </section>
+    <section class="engagement-boosters">
+      <h2>Daily Challenge</h2>
+      <p>Today's Challenge: Take a 5-minute mindfulness break.</p>
+    </section>
+  </div>
+</div>
 } @else {
 <div>Loading...</div>
 }

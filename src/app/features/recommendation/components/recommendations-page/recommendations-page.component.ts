@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AuthState } from '../../../auth/store/state';
 import { selectUsername } from '../../../auth/store/selectors/auth.selectors';
 import { AsyncPipe } from '@angular/common';
+import { RecommendationService } from '../../services/recommendation.service';
 
 @Component({
   selector: 'app-recommendations-page',
@@ -13,11 +14,13 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './recommendations-page.component.sass',
 })
 export class RecommendationsPageComponent {
-  username$: Observable<string | undefined> | null = null;
-
-  constructor(store: Store<AuthState>) {
-    this.username$ = store.select(selectUsername);
-  }
+  store = inject(Store<AuthState>);
+  recommendationService = inject(RecommendationService)
+  
+  username$ = this.store.select(selectUsername);
+  tips$ = this.recommendationService.recommendTips();
+  article$ = this.recommendationService.recommendArticle();
+  event$ = this.recommendationService.recommendEvent();
 
   moveCarousel(carouselId: string, direction: number) {
     const carousel = document.getElementById(carouselId) as HTMLDivElement;
