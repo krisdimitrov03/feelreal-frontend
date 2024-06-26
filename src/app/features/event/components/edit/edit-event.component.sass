@@ -1,6 +1,6 @@
-// src/app/features/calendar/create-event/create-event.component.sass
+// src/app/features/calendar/edit-event/edit-event.component.sass
 
-.create-event-container
+.edit-event-container
   display: flex
   justify-content: center
   align-items: center
@@ -9,7 +9,7 @@
   background-color: #f7f9fc
   margin: 5rem 0
 
-.create-event-form
+.edit-event-form
   width: 600px
   padding: 3em
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
@@ -32,7 +32,7 @@ h2
 
 label
   position: absolute
-  top: 0.9em
+  top: 0.5em
   left: 0.75em
   background: white
   padding: 0 0.5em
@@ -48,10 +48,15 @@ input, textarea, select
   font-size: 1em
   box-sizing: border-box
   &:focus + label,
-  &:not(:placeholder-shown) + label
+  &:not(:placeholder-shown) + label,
+  &:focus + label + .form-control,
+  &:not(:placeholder-shown) + label + .form-control
     top: -0.6em
     font-size: 0.75em
     color: #ff7e5f
+
+textarea
+  resize: vertical
 
 button
   background-color: #ff7e5f
@@ -69,7 +74,3 @@ button
   box-sizing: border-box
   &:hover
     background-color: #feb47b
-
-  
-textarea
-  resize: vertical

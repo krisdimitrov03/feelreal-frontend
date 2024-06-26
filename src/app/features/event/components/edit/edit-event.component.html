@@ -1,7 +1,7 @@
-<!-- src/app/features/calendar/create-event/create-event.component.html -->
-<div class="create-event-container">
-  <div class="create-event-form">
-    <h2>Create Event</h2>
+<!-- src/app/features/calendar/edit-event/edit-event.component.html -->
+<div class="edit-event-container">
+  <div class="edit-event-form">
+    <h2>Edit Event</h2>
     <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <input id="title" formControlName="title" type="text" class="form-control" placeholder=" " />
@@ -29,7 +29,7 @@
         </select>
         <label for="repeatMode">Repeat Mode</label>
       </div>
-      <button type="submit" class="btn btn-primary">Create Event</button>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>
   </div>
 </div>

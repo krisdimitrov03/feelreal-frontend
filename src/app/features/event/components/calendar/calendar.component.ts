@@ -152,7 +152,7 @@ export class CalendarComponent implements OnInit {
   }
 
   editEvent(event: CalendarEvent): void {
-    this.router.navigate(['/editEvent', event.id]);
+    this.router.navigate(['/event/edit', event.id]);
   }
 
   deleteEvent(event: CalendarEvent): void {
