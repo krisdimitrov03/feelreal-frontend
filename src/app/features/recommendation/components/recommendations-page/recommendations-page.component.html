@@ -78,7 +78,7 @@
             {{ formatDateTime(event.dateTimeEnd) }}
           </h4>
           <p>{{ event.notes }}</p>
-          <button class="add-calendar">Add to Calendar</button>
+          <button class="add-calendar" (click)="addToCalendar()">Add to Calendar</button>
         </div>
         <button class="suggest-button" (click)="nextEvent()">
           Next event &#10095;

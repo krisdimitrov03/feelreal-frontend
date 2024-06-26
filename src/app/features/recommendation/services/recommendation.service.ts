@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import api from '../../../core/constants/api-url.constants';
-import { Event } from '../../../shared/models/Event';
+import { Event, EventCreateModel } from '../../../shared/models/Event';
 import { Article } from '../../../shared/models/Article';
 import { Tip } from '../../../shared/models/Tip';
+import { EventService } from '../../event/services/event.service';
 
 const mockTips: Tip[] = [
   { id: '1', content: 'Stay hydrated to keep your mind and body functioning well.', type: 1 },
@@ -51,11 +52,9 @@ export class RecommendationService {
       .pipe(catchError((e) => of({} as Article)));
   }
 
-  recommendEvent(): Observable<Event> {
-    // return this.httpClient
-    //   .get<Event>(api.recommendation.event)
-    //   .pipe(catchError((e) => of({} as Event)));
-
-    return of(mockEvent);
+  recommendEvent(): Observable<EventCreateModel> {
+    return this.httpClient
+      .get<Event>(api.recommendation.event)
+      .pipe(catchError((e) => of({} as Event)));
   }
 }
