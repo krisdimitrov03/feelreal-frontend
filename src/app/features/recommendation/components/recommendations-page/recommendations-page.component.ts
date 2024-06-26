@@ -1,6 +1,6 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, catchError, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AuthState } from '../../../auth/store/state';
 import { selectUsername } from '../../../auth/store/selectors/auth.selectors';
 import { AsyncPipe } from '@angular/common';
