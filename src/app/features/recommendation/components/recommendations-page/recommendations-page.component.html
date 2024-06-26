@@ -3,15 +3,18 @@
   <div class="recommendations-header">
     <h1>Recommended for You</h1>
     <p>
-      <span class="username">{{ username }}</span
+      Welcome, <span class="username">{{ username }}</span
       >! Here are your recommendations for today.
     </p>
   </div>
   <div class="recommendations-main">
     <section class="hero">
-      <h2>Featured Recommendation</h2>
+      <h2><i class="fas fa-star"></i> Featured Recommendation</h2>
       <div class="featured-recommendation">
-        <img src="featured.jpg" alt="Featured Recommendation Image" />
+        <img
+          src="../../../../../assets/recommendation-woman.png"
+          alt="Featured Recommendation Image"
+        />
         <div class="description">
           <p>
             Discover the best advice and tips handpicked just for you. Stay
@@ -22,12 +25,12 @@
     </section>
     <section class="content-feed">
       <div class="column">
-        <h2>Daily Tips</h2>
+        <h2><i class="fas fa-lightbulb"></i> Daily Tips</h2>
         @if ((tips$ | async); as tips) {
         <div class="carousel-container">
           <button
             class="carousel-button prev"
-            onclick="moveCarousel('tips-carousel', -1)"
+            (click)="moveCarousel('tips-carousel', -1)"
           >
             &#10094;
           </button>
@@ -40,56 +43,57 @@
           </div>
           <button
             class="carousel-button next"
-            onclick="moveCarousel('tips-carousel', 1)"
+            (click)="moveCarousel('tips-carousel', 1)"
           >
             &#10095;
           </button>
         </div>
         } @else {
-        <div>Loading...</div>
+        <app-loader></app-loader>
         }
       </div>
       <div class="column">
-        <h2>Recommended Articles</h2>
+        <h2><i class="fas fa-book"></i> Recommended Articles</h2>
         @if ((article$ | async); as article) {
-        <div class="carousel-container">
-          <div class="carousel articles-carousel" id="articles-carousel">
-            <div class="carousel-item article-card">
-              <h3>{{ article.title }}</h3>
-              <p>{{ article.content }}</p>
-            </div>
+        <div class="article-container">
+          <div class="article-card">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.content }}</p>
           </div>
-          <button>Suggest next</button>
+          <button class="suggest-button" (click)="nextArticle()">
+            Next article &#10095;
+          </button>
         </div>
         } @else {
-        <div>Loading...</div>
+        <app-loader></app-loader>
         }
       </div>
-      <h2>Upcoming Events</h2>
+      <h2><i class="fas fa-calendar-alt"></i> Upcoming Events</h2>
       @if ((event$ | async); as event) {
-      <div class="carousel-container">
-        <div class="carousel events-carousel" id="events-carousel">
-          <div class="carousel-item event-card">
-            <h3>{{ event.title }}</h3>
-            <h4>{{event.dateTimeStart}} - {{event.dateTimeEnd}}</h4>
-            <p>
-              {{ event.notes }}
-            </p>
-            <button class="add-calendar">Add to Calendar</button>
-          </div>
+      <div class="event-container">
+        <div class="event-card">
+          <h3>{{ event.title }}</h3>
+          <h4>
+            {{ formatDateTime(event.dateTimeStart) }} -
+            {{ formatDateTime(event.dateTimeEnd) }}
+          </h4>
+          <p>{{ event.notes }}</p>
+          <button class="add-calendar">Add to Calendar</button>
         </div>
-        <button>Suggest next</button>
+        <button class="suggest-button" (click)="nextEvent()">
+          Next event &#10095;
+        </button>
       </div>
       } @else {
-      <div>Loading...</div> 
+      <app-loader></app-loader>
       }
     </section>
     <section class="engagement-boosters">
-      <h2>Daily Challenge</h2>
+      <h2><i class="fas fa-trophy"></i> Daily Challenge</h2>
       <p>Today's Challenge: Take a 5-minute mindfulness break.</p>
     </section>
   </div>
 </div>
 } @else {
-<div>Loading...</div>
+<app-loader></app-loader>
 }

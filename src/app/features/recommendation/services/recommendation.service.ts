@@ -40,19 +40,15 @@ export class RecommendationService {
   constructor() {}
 
   recommendTips(): Observable<Tip[]> {
-    // return this.httpClient
-    //   .get<Tip[]>(api.recommendation.tips)
-    //   .pipe(catchError((e) => of([])));
-
-    return of(mockTips);
+    return this.httpClient
+      .get<Tip[]>(api.recommendation.tips)
+      .pipe(catchError((e) => of([])));
   }
 
   recommendArticle(): Observable<Article> {
-    // return this.httpClient
-    //   .get<Article>(api.recommendation.article)
-    //   .pipe(catchError((e) => of({} as Article)));
-
-    return of(mockArticle);
+    return this.httpClient
+      .get<Article>(api.recommendation.article)
+      .pipe(catchError((e) => of({} as Article)));
   }
 
   recommendEvent(): Observable<Event> {
