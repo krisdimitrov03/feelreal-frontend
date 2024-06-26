@@ -1,32 +1,35 @@
 <!-- src/app/features/calendar/create-event/create-event.component.html -->
 <div class="create-event-container">
-  <h2>Create Event</h2>
-  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="title">Title</label>
-      <input id="title" formControlName="title" type="text" class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="notes">Notes</label>
-      <textarea id="notes" formControlName="notes" class="form-control"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="dateTimeStart">Start Time</label>
-      <input id="dateTimeStart" formControlName="dateTimeStart" type="datetime-local" class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="dateTimeEnd">End Time</label>
-      <input id="dateTimeEnd" formControlName="dateTimeEnd" type="datetime-local" class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="repeatMode">Repeat Mode</label>
-      <select id="repeatMode" formControlName="repeatMode" class="form-control">
-        <option value="0">Once</option>
-        <option value="1">Daily</option>
-        <option value="2">Weekly</option>
-        <option value="3">Monthly</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Create Event</button>
-  </form>
+  <div class="create-event-form">
+    <h2>Create Event</h2>
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input id="title" formControlName="title" type="text" class="form-control" placeholder=" " />
+        <label for="title">Title</label>
+      </div>
+      <div class="form-group">
+        <textarea id="notes" formControlName="notes" class="form-control" placeholder=" "></textarea>
+        <label for="notes">Notes</label>
+      </div>
+      <div class="form-group">
+        <input id="dateTimeStart" formControlName="dateTimeStart" type="datetime-local" class="form-control" placeholder=" " />
+        <label for="dateTimeStart">Start Time</label>
+      </div>
+      <div class="form-group">
+        <input id="dateTimeEnd" formControlName="dateTimeEnd" type="datetime-local" class="form-control" placeholder=" " />
+        <label for="dateTimeEnd">End Time</label>
+      </div>
+      <div class="form-group">
+        <select id="repeatMode" formControlName="repeatMode" class="form-control">
+          <option value="" disabled selected></option>
+          <option value="0">Once</option>
+          <option value="1">Daily</option>
+          <option value="2">Weekly</option>
+          <option value="3">Monthly</option>
+        </select>
+        <label for="repeatMode">Repeat Mode</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Create Event</button>
+    </form>
+  </div>
 </div>
