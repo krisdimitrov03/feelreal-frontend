@@ -10,6 +10,7 @@ import { AuthState } from '../../../auth/store/state';
 import { Store } from '@ngrx/store';
 import { LOGOUT } from '../../../auth/store/actions/auth.actions';
 import { selectUser } from '../../../auth/store/selectors/auth.selectors';
+import { LoaderComponent } from '../../../../core/components/loader/loader.component';
 
 type FormControls = {
   username: FormControl<any>;
@@ -23,7 +24,7 @@ type FormControls = {
 @Component({
   selector: 'app-manage-profile',
   standalone: true,
-  imports: [AsyncPipe, ReactiveFormsModule, RouterModule],
+  imports: [AsyncPipe, ReactiveFormsModule, RouterModule, LoaderComponent],
   templateUrl: './manage-profile.component.html',
   styleUrls: ['./manage-profile.component.sass'],
 })
