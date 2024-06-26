@@ -1,88 +1,93 @@
-$primary-color: #007bff
-$slider-bg: #f8f9fa
-$slider-thumb: $primary-color
-$slider-thumb-hover: darken($primary-color, 10%)
-$slider-track: #ced4da
+// src/app/features/wellness-check/components/one-to-ten-check/one-to-ten-check.component.sass
 
-.wellness-check-prompt
+body, html 
+  height: 100%
+  margin: 0
+  font-family: 'Roboto', sans-serif
+
+.wellness-check-prompt 
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100vh
+  background: #f8d7a1 // Lighter orange background
+
+.wellness-check-prompt__content 
+  background: #fff
+  padding: 40px
+  border-radius: 15px
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1)
+  text-align: center
   max-width: 400px
-  margin: auto
-  padding: 20px
-  background-color: #ffffff
+  width: 100%
+
+.wellness-check-prompt__title p 
+  font-size: 28px
+  color: #333
+  margin-bottom: 30px
+
+.wellness-check-prompt__actions 
+  margin-top: 20px
+
+.slider 
+  width: 100%
+  margin: 40px 0 20px 0 // Increased margin-top to ensure the thumb is fully visible
+  -webkit-appearance: none
+  appearance: none
+  height: 14px
+  background: linear-gradient(90deg, #ff6666, #ffcc00) // Gradient
+  outline: none
   border-radius: 10px
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+  overflow: hidden
+  transition: background 0.3s
 
-  &__content
-    display: flex
-    flex-direction: column
-    align-items: center
+.slider::-webkit-slider-thumb 
+  -webkit-appearance: none
+  appearance: none
+  width: 28px
+  height: 28px
+  background: #4CAF50
+  cursor: pointer
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+  transition: background 0.3s
+  position: relative
+  top: 0 // Removed the top offset to ensure the thumb is fully visible
 
-  &__title
-    margin-bottom: 20px
-    font-size: 20px
-    font-weight: bold
-    color: $primary-color
+.slider::-moz-range-thumb 
+  width: 28px
+  height: 28px
+  background: #4CAF50
+  cursor: pointer
+  border-radius: 50%
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+  transition: background 0.3s
+  position: relative
+  top: 0 // Removed the top offset to ensure the thumb is fully visible
 
-  &__actions
-    width: 100%
-    display: flex
-    flex-direction: column
-    align-items: center
+.slider-labels 
+  display: flex
+  justify-content: space-between
+  margin-top: 10px
+  margin-bottom: 40px // Increased margin-bottom to ensure proper spacing
 
-    .slider
-      -webkit-appearance: none
-      width: 100%
-      height: 15px
-      background: $slider-bg
-      outline: none
-      opacity: 0.7
-      transition: opacity 0.2s
+.slider-labels span 
+  font-size: 16px
+  color: #333
+  transition: color 0.3s
 
-      &:hover
-        opacity: 1
+.slider-labels span.active 
+  color: #4CAF50
+  font-weight: bold
 
-      &::-webkit-slider-thumb
-        -webkit-appearance: none
-        appearance: none
-        width: 25px
-        height: 25px
-        background: $slider-thumb
-        cursor: pointer
-        border-radius: 50%
+.submit-btn 
+  background-color: #4CAF50 // Green button
+  color: white
+  padding: 12px 24px
+  border: none
+  border-radius: 25px
+  cursor: pointer
+  font-size: 18px
+  transition: background-color 0.3s
 
-        &:hover
-          background: $slider-thumb-hover
-
-      &::-moz-range-thumb
-        width: 25px
-        height: 25px
-        background: $slider-thumb
-        cursor: pointer
-        border-radius: 50%
-
-        &:hover
-          background: $slider-thumb-hover
-
-    .slider-labels
-      display: flex
-      justify-content: space-between
-      width: 100%
-      margin-top: 10px
-
-      span
-        font-size: 12px
-
-    button
-      width: 100%
-      padding: 10px
-      font-size: 16px
-      color: #ffffff
-      background-color: $primary-color
-      border: none
-      border-radius: 5px
-      cursor: pointer
-      transition: background-color 0.3s
-      margin-top: 20px
-
-      &:hover
-        background-color: darken($primary-color, 10%)
+.submit-btn:hover 
+  background-color: #45a049
