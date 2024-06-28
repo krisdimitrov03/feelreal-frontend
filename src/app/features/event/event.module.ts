@@ -1,4 +1,3 @@
-// src/app/features/calendar/calendar-feature.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';

@@ -118,7 +118,6 @@ export class ManageProfileComponent implements AfterViewInit {
   onUpdate() {
     const data = this.form?.value as ProfileUpdateModel;
 
-    // Check if data is unchanged
     if (JSON.stringify(data) === JSON.stringify(this.formValues)) {
       console.log("No changes detected, skipping update.");
       return;
