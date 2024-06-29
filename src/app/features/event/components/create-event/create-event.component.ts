@@ -1,4 +1,3 @@
-// src/app/features/calendar/create-event/create-event.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,7 +29,7 @@ export class CreateEventComponent {
     console.log('Form submitted:', this.eventForm.value);
     if (this.eventForm.valid) {
       const newEvent: EventCreateModel = this.eventForm.value;
-      newEvent.repeatMode = Number(newEvent.repeatMode); // Ensure repeatMode is a number
+      newEvent.repeatMode = Number(newEvent.repeatMode);
       this.eventService.create(newEvent).subscribe(
         (event) => {
           console.log('Event created:', event);

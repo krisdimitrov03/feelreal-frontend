@@ -147,7 +147,7 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEventClick(event: CalendarEvent, eventClick: MouseEvent): void {
-    eventClick.stopPropagation(); // Prevent triggering day click
+    eventClick.stopPropagation();
     this.selectedEvent = event;
   }
 

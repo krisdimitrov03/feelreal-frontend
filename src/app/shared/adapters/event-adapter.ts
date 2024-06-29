@@ -1,4 +1,3 @@
-// src/app/shared/adapters/event-adapter.ts
 import { Injectable } from '@angular/core';
 import { Event } from '../models/Event';
 
